@@ -83,7 +83,7 @@ class AutomationView(tk.Frame):
         
         # Botón de Automatización (Estilo Vantti POS: Dorado con texto oscuro)
         self.auto_btn = tk.Button(config_card, 
-                                  text="⚡  Autocompletar Ciclo de Costos", 
+                                  text="Autocompletar Ciclo de Costos", 
                                   font=config.FONT_BODY_BOLD, 
                                   fg=config.COLOR_PRIMARY, 
                                   bg=config.COLOR_GOLD, 
@@ -219,7 +219,7 @@ class AutomationView(tk.Frame):
         notes_frame.pack(fill="x", side="bottom")
         
         tk.Label(notes_frame, 
-                 text="💡 Nota: Los cargos de Mano de Obra Directa (MOD) y Cargos Indirectos (GIF) se inyectan directamente en el paso '2. PRODUCCIÓN' para acumular el Costo de Fabricación.", 
+                 text="■ Nota: Los cargos de Mano de Obra Directa (MOD) y Cargos Indirectos (GIF) se inyectan directamente en el paso '2. PRODUCCIÓN' para acumular el Costo de Fabricación.", 
                  font=("Segoe UI", 9, "italic"), 
                  fg=config.COLOR_TEXT_MUTED, 
                  bg=config.COLOR_CARD).pack()

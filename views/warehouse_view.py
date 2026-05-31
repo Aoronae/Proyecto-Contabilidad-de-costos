@@ -86,7 +86,7 @@ class WarehouseView(tk.Frame):
         
         # Botón de Registro (Estilo Vantti POS: Dorado)
         reg_btn = tk.Button(form_frame, 
-                            text="💾  Registrar en Almacén", 
+                            text="Registrar en Almacén", 
                             font=config.FONT_BODY_BOLD, 
                             fg=config.COLOR_PRIMARY, 
                             bg=config.COLOR_GOLD, 

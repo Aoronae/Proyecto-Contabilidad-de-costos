@@ -26,7 +26,7 @@ class ReportsView(tk.Frame):
         left_panel = tk.Frame(self, bg=config.COLOR_BG, padx=15, pady=15)
         left_panel.grid(row=0, column=0, sticky="nsew")
         
-        lbl_report_title = tk.Label(left_panel, text="📋  Estado de Costos de Producción y de lo Vendido", font=config.FONT_TITLE, fg=config.COLOR_PRIMARY, bg=config.COLOR_BG)
+        lbl_report_title = tk.Label(left_panel, text="Estado de Costos de Producción y de lo Vendido", font=config.FONT_TITLE, fg=config.COLOR_PRIMARY, bg=config.COLOR_BG)
         lbl_report_title.pack(anchor="w", pady=(0, 10))
         
         # Tarjeta contenedora del reporte financiero formal
@@ -40,7 +40,7 @@ class ReportsView(tk.Frame):
         right_panel = tk.Frame(self, bg=config.COLOR_BG, padx=15, pady=15)
         right_panel.grid(row=0, column=1, sticky="nsew")
         
-        lbl_pe_title = tk.Label(right_panel, text="📈  Análisis del Punto de Equilibrio", font=config.FONT_TITLE, fg=config.COLOR_PRIMARY, bg=config.COLOR_BG)
+        lbl_pe_title = tk.Label(right_panel, text="Análisis del Punto de Equilibrio", font=config.FONT_TITLE, fg=config.COLOR_PRIMARY, bg=config.COLOR_BG)
         lbl_pe_title.pack(anchor="w", pady=(0, 10))
         
         # Tarjeta de parámetros del Punto de Equilibrio
@@ -73,7 +73,7 @@ class ReportsView(tk.Frame):
         
         # Botón Calcular PE (Estilo Vantti POS: Dorado)
         calc_btn = tk.Button(pe_card, 
-                             text="📊  Calcular e Interpolar", 
+                             text="Calcular e Interpolar", 
                              font=config.FONT_BODY_BOLD, 
                              fg=config.COLOR_PRIMARY, 
                              bg=config.COLOR_GOLD, 

@@ -69,7 +69,7 @@ class InitView(tk.Frame):
         
         # Botón Institucional de Carga (Estilo Vantti POS: Dorado con texto oscuro)
         self.load_btn = tk.Button(practice_card, 
-                                  text="🚀  Cargar Proyecto de Práctica", 
+                                  text="Cargar Proyecto de Práctica", 
                                   font=config.FONT_BODY_BOLD, 
                                   fg=config.COLOR_PRIMARY, 
                                   bg=config.COLOR_GOLD, 
@@ -151,6 +151,6 @@ class InitView(tk.Frame):
             
         # Si el proyecto de práctica ya está cargado, deshabilitar botón o cambiar texto
         if data.get("practice_project_loaded", False):
-            self.load_btn.configure(text="✅  Proyecto de Práctica Cargado", bg=config.COLOR_PRIMARY, state="disabled")
+            self.load_btn.configure(text="Proyecto de Práctica Cargado", bg=config.COLOR_PRIMARY, state="disabled")
         else:
-            self.load_btn.configure(text="🚀  Cargar Proyecto de Práctica", bg=config.COLOR_GOLD, state="normal")
+            self.load_btn.configure(text="Cargar Proyecto de Práctica", bg=config.COLOR_GOLD, state="normal")

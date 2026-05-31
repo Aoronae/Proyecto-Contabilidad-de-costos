@@ -68,18 +68,18 @@ class MainWindow(tk.Tk):
         self.active_view = None
         self.nav_items = {} # Contiene tuplas de (Frame del botón, Canvas del icono, Label de texto)
         
-        # Items del menú (key, emoji, título corto, vista a mostrar)
+        # Items del menú (key, glifo formal, título corto, vista a mostrar)
         self.menu_items = [
-            ("init", "🏢", "Dashboard", self.show_view_init),
-            ("warehouse", "📦", "Almacén", self.show_view_warehouse),
-            ("ledger", "📖", "Diario", self.show_view_ledger),
-            ("automation", "⚡", "Ciclo", self.show_view_automation),
-            ("reports", "📊", "Reportes", self.show_view_reports)
+            ("init", "■", "Dashboard", self.show_view_init),
+            ("warehouse", "◆", "Almacén", self.show_view_warehouse),
+            ("ledger", "▲", "Diario", self.show_view_ledger),
+            ("automation", "❖", "Ciclo", self.show_view_automation),
+            ("reports", "●", "Reportes", self.show_view_reports)
         ]
         
         self.build_sidebar_menu()
         
-        # Botón de Cerrar/Reiniciar al fondo del menú lateral
+        # Botón de Reiniciar al fondo del menú lateral
         self.build_sidebar_footer()
         
         # --- 4. PANEL DE CONTENIDO GENERAL ---
@@ -171,7 +171,7 @@ class MainWindow(tk.Tk):
         footer_frame.pack(side="bottom", fill="x", pady=10)
         footer_frame.pack_propagate(False)
         
-        icon_lbl = tk.Label(footer_frame, text="🔄", font=("Segoe UI", 16), fg=config.COLOR_GOLD, bg="#002D54")
+        icon_lbl = tk.Label(footer_frame, text="↻", font=("Segoe UI", 16), fg=config.COLOR_GOLD, bg="#002D54")
         icon_lbl.pack(anchor="center", pady=(5, 2))
         
         text_lbl = tk.Label(footer_frame, text="Reiniciar", font=("Segoe UI", 8, "bold"), fg="#CBD5E1", bg="#002D54")

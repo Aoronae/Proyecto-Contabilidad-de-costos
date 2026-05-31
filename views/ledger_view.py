@@ -28,7 +28,7 @@ class LedgerView(tk.Frame):
         left_panel.grid(row=0, column=0, sticky="nsew")
         
         # Título Sección Diario
-        lbl_diario_title = tk.Label(left_panel, text="📖  Libro Diario General", font=config.FONT_TITLE, fg=config.COLOR_PRIMARY, bg=config.COLOR_BG)
+        lbl_diario_title = tk.Label(left_panel, text="Libro Diario General", font=config.FONT_TITLE, fg=config.COLOR_PRIMARY, bg=config.COLOR_BG)
         lbl_diario_title.pack(anchor="w", pady=(0, 10))
         
         # Formulario de Registro de Asientos (Tarjeta)
@@ -86,7 +86,7 @@ class LedgerView(tk.Frame):
         
         # Botón para agregar movimiento al borrador (Estilo Vantti POS: Dorado)
         add_btn = tk.Button(input_subrow, 
-                            text="➕ Agregar", 
+                            text="Agregar", 
                             font=config.FONT_BODY_BOLD, 
                             fg=config.COLOR_PRIMARY, 
                             bg=config.COLOR_GOLD, 
@@ -126,7 +126,7 @@ class LedgerView(tk.Frame):
         self.lbl_sum_haber = tk.Label(self.draft_footer, text="Total Haber: $0.00", font=config.FONT_BODY_BOLD, fg=config.COLOR_HABER, bg=config.COLOR_CARD)
         self.lbl_sum_haber.pack(side="left", padx=15)
         
-        self.lbl_balance_status = tk.Label(self.draft_footer, text="⚠️ Descuadrado", font=config.FONT_BODY_BOLD, fg=config.COLOR_GOLD_DARK, bg=config.COLOR_GOLD_LIGHT, padx=8)
+        self.lbl_balance_status = tk.Label(self.draft_footer, text="Descuadrado", font=config.FONT_BODY_BOLD, fg=config.COLOR_GOLD_DARK, bg=config.COLOR_GOLD_LIGHT, padx=8)
         self.lbl_balance_status.pack(side="left", padx=10)
         
         # Eliminar línea y guardar asiento
@@ -134,7 +134,7 @@ class LedgerView(tk.Frame):
         btn_action_frame.pack(fill="x", pady=(5, 0))
         
         del_btn = tk.Button(btn_action_frame, 
-                            text="🗑️ Eliminar Fila", 
+                            text="Eliminar Fila", 
                             font=("Segoe UI", 9), 
                             fg="#EF4444", 
                             bg=config.COLOR_CARD, 
@@ -145,7 +145,7 @@ class LedgerView(tk.Frame):
         del_btn.pack(side="left")
         
         save_entry_btn = tk.Button(btn_action_frame, 
-                                   text="💾 Guardar Asiento Diario", 
+                                   text="Guardar Asiento Diario", 
                                    font=config.FONT_BODY_BOLD, 
                                    fg=config.COLOR_PRIMARY, 
                                    bg=config.COLOR_GOLD, 
@@ -189,7 +189,7 @@ class LedgerView(tk.Frame):
         right_panel = tk.Frame(self, bg=config.COLOR_BG, padx=15, pady=15)
         right_panel.grid(row=0, column=1, sticky="nsew")
         
-        lbl_mayor_title = tk.Label(right_panel, text="📊  Esquemas de Mayor (Cuentas T)", font=config.FONT_TITLE, fg=config.COLOR_PRIMARY, bg=config.COLOR_BG)
+        lbl_mayor_title = tk.Label(right_panel, text="Esquemas de Mayor (Cuentas T)", font=config.FONT_TITLE, fg=config.COLOR_PRIMARY, bg=config.COLOR_BG)
         lbl_mayor_title.pack(anchor="w", pady=(0, 10))
         
         # Contenedor con Scroll para Cuentas T (Canvas + Frame)
@@ -298,9 +298,9 @@ class LedgerView(tk.Frame):
         
         # Validar cuadre
         if round(total_debe, 2) == round(total_haber, 2) and len(self.draft_movements) > 0:
-            self.lbl_balance_status.configure(text="✅  Cuadrado", fg=config.COLOR_TEXT_LIGHT, bg=config.COLOR_DEBE)
+            self.lbl_balance_status.configure(text="Cuadrado", fg=config.COLOR_TEXT_LIGHT, bg=config.COLOR_DEBE)
         else:
-            self.lbl_balance_status.configure(text="⚠️ Descuadrado", fg=config.COLOR_GOLD_DARK, bg=config.COLOR_GOLD_LIGHT)
+            self.lbl_balance_status.configure(text="Descuadrado", fg=config.COLOR_GOLD_DARK, bg=config.COLOR_GOLD_LIGHT)
             
     def submit_asiento(self):
         """Valida partida doble formalmente y guarda en el Libro Diario."""
