@@ -81,14 +81,14 @@ class AutomationView(tk.Frame):
         # Cargar valores por defecto
         self.reset_defaults()
         
-        # Botón de Automatización
+        # Botón de Automatización (Estilo Vantti POS: Dorado con texto oscuro)
         self.auto_btn = tk.Button(config_card, 
                                   text="⚡  Autocompletar Ciclo de Costos", 
                                   font=config.FONT_BODY_BOLD, 
-                                  fg=config.COLOR_TEXT_LIGHT, 
-                                  bg=config.COLOR_SECONDARY, 
-                                  activebackground=config.COLOR_HOVER, 
-                                  activeforeground=config.COLOR_TEXT_LIGHT,
+                                  fg=config.COLOR_PRIMARY, 
+                                  bg=config.COLOR_GOLD, 
+                                  activebackground="#F59E0B", 
+                                  activeforeground=config.COLOR_PRIMARY,
                                   bd=0, 
                                   padx=25, 
                                   pady=14,
@@ -180,15 +180,15 @@ class AutomationView(tk.Frame):
         container = tk.Frame(self.diagram_canvas, bg=config.COLOR_CARD, pady=40)
         container.pack(expand=True)
         
-        # Definición de cajas del flujo industrial
+        # Definición de cajas del flujo contable industrial (Textos ultra simplificados y limpios)
         steps = [
-            ("1. COMPRA MP", "Almacén de MP\n(1151)", "Inventario Inicial\ny compras a costo de factura", config.COLOR_PRIMARY),
-            ("➔", "Traspaso MPD\n(Consumo)", "Promedio Ponderado", config.COLOR_GOLD_DARK),
-            ("2. PRODUCCIÓN", "Producción en Proceso\n(1152)", "Acumula MPD + MOD + GIF\npara el lote activo", config.COLOR_SECONDARY),
+            ("1. COMPRA MP", "Almacén de MP\n(1151)", "Inventario inicial y\ncompras de materias primas", config.COLOR_PRIMARY),
+            ("➔", "Traspaso MPD\n(Consumo)", "Costo Promedio", config.COLOR_GOLD_DARK),
+            ("2. PRODUCCIÓN", "Producción en Proceso\n(1152)", "Consumo acumulado +\nnómina MOD + cargos GIF", config.COLOR_SECONDARY),
             ("➔", "Traspaso PT\n(Costo Terminado)", "Costo Unitario real", config.COLOR_GOLD_DARK),
-            ("3. PRODUCTO FIN", "Almacén de PT\n(1153)", "Almacén listo para venta\nde productos terminados", config.COLOR_PRIMARY),
-            ("➔", "Costo de Ventas\n(Salida PT)", "Unidades vendidas valoradas", config.COLOR_GOLD_DARK),
-            ("4. REPORTES", "Costo de lo Vendido\n(5101)", "Reportado en el Estado\nde Resultados final", config.COLOR_SECONDARY)
+            ("3. PRODUCTO FIN", "Almacén de PT\n(1153)", "Almacenamiento de\nproductos terminados", config.COLOR_PRIMARY),
+            ("➔", "Costo de Ventas\n(Salida PT)", "Valuación de salidas", config.COLOR_GOLD_DARK),
+            ("4. REPORTES", "Costo de lo Vendido\n(5101)", "Reflejado en el Estado\nde Resultados final", config.COLOR_SECONDARY)
         ]
         
         for idx, (label, title, desc, col) in enumerate(steps):

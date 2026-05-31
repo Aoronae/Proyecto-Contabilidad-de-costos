@@ -54,14 +54,10 @@ class InitView(tk.Frame):
                                       pady=15)
         practice_card.pack(fill="x", expand=True)
         
-        # Nota explicativa
+        # Nota explicativa simplificada y amigable
         explanation_text = (
-            "Para evaluar el ERP de inmediato, presiona el botón 'Cargar Proyecto de Práctica'.\n"
-            "Esto inicializará el catálogo con saldos reales simulados:\n"
-            " • Bancos: $500,000.00\n"
-            " • Almacén de Materias Primas: $100,000.00 (1,000 kg de MP a $100.00/kg)\n"
-            " • Maquinaria y Equipo: $300,000.00\n"
-            " • Capital Social: $900,000.00"
+            "¡Bienvenido a Cost ERP! Para comenzar a explorar las simulaciones de inmediato,\n"
+            "presiona el botón de la derecha para cargar el caso práctico escolar preconfigurado."
         )
         explanation_label = tk.Label(practice_card, 
                                      text=explanation_text, 
@@ -69,7 +65,7 @@ class InitView(tk.Frame):
                                      fg=config.COLOR_TEXT_DARK, 
                                      bg=config.COLOR_CARD, 
                                      justify="left")
-        explanation_label.pack(side="left", anchor="w")
+        explanation_label.pack(side="left", anchor="w", pady=5)
         
         # Botón Institucional de Carga (Estilo Vantti POS: Dorado con texto oscuro)
         self.load_btn = tk.Button(practice_card, 

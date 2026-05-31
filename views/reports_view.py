@@ -71,17 +71,17 @@ class ReportsView(tk.Frame):
         self.entry_var_cost = ttk.Entry(inputs_frame, width=12, font=config.FONT_BODY)
         self.entry_var_cost.grid(row=1, column=1, sticky="w", pady=4, padx=8)
         
-        # Botón Calcular PE
+        # Botón Calcular PE (Estilo Vantti POS: Dorado)
         calc_btn = tk.Button(pe_card, 
                              text="📊  Calcular e Interpolar", 
                              font=config.FONT_BODY_BOLD, 
-                             fg=config.COLOR_TEXT_LIGHT, 
-                             bg=config.COLOR_SECONDARY, 
-                             activebackground=config.COLOR_HOVER, 
-                             activeforeground=config.COLOR_TEXT_LIGHT,
+                             fg=config.COLOR_PRIMARY, 
+                             bg=config.COLOR_GOLD, 
+                             activebackground="#F59E0B", 
+                             activeforeground=config.COLOR_PRIMARY,
                              bd=0, 
-                             padx=12, 
-                             pady=4,
+                             padx=15, 
+                             pady=6,
                              command=self.calculate_break_even)
         calc_btn.pack(side="right", pady=5)
         

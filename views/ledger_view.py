@@ -84,17 +84,17 @@ class LedgerView(tk.Frame):
         self.entry_haber.pack(side="left", padx=3)
         self.entry_haber.insert(0, "0.00")
         
-        # Botón para agregar movimiento al borrador
+        # Botón para agregar movimiento al borrador (Estilo Vantti POS: Dorado)
         add_btn = tk.Button(input_subrow, 
                             text="➕ Agregar", 
                             font=config.FONT_BODY_BOLD, 
-                            fg=config.COLOR_TEXT_LIGHT, 
-                            bg=config.COLOR_SECONDARY, 
-                            activebackground=config.COLOR_HOVER, 
-                            activeforeground=config.COLOR_TEXT_LIGHT,
+                            fg=config.COLOR_PRIMARY, 
+                            bg=config.COLOR_GOLD, 
+                            activebackground="#F59E0B", 
+                            activeforeground=config.COLOR_PRIMARY,
                             bd=0, 
-                            padx=10, 
-                            pady=3,
+                            padx=15, 
+                            pady=4,
                             command=self.add_draft_movement)
         add_btn.pack(side="right", padx=5)
         
@@ -147,10 +147,10 @@ class LedgerView(tk.Frame):
         save_entry_btn = tk.Button(btn_action_frame, 
                                    text="💾 Guardar Asiento Diario", 
                                    font=config.FONT_BODY_BOLD, 
-                                   fg=config.COLOR_TEXT_LIGHT, 
-                                   bg=config.COLOR_SECONDARY, 
-                                   activebackground=config.COLOR_HOVER, 
-                                   activeforeground=config.COLOR_TEXT_LIGHT,
+                                   fg=config.COLOR_PRIMARY, 
+                                   bg=config.COLOR_GOLD, 
+                                   activebackground="#F59E0B", 
+                                   activeforeground=config.COLOR_PRIMARY,
                                    bd=0, 
                                    padx=15, 
                                    pady=8,

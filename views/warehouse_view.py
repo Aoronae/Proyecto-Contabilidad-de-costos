@@ -45,7 +45,7 @@ class WarehouseView(tk.Frame):
         
         self.build_kpis()
         
-        # 3. Formulario de Transacciones (Mitad Izquierda) y Explicación (Mitad Derecha)
+        # 3. Formulario de Transacciones (Ancho Completo y Despejado)
         middle_frame = tk.Frame(self, bg=config.COLOR_BG, padx=20, pady=10)
         middle_frame.grid(row=2, column=0, sticky="ew")
         
@@ -58,7 +58,7 @@ class WarehouseView(tk.Frame):
                                    bd=1, 
                                    padx=15, 
                                    pady=10)
-        form_frame.pack(side="left", fill="both", expand=True, padx=(0, 10))
+        form_frame.pack(fill="x", expand=True)
         
         # Inputs
         tk.Label(form_frame, text="Fecha:", bg=config.COLOR_CARD, font=config.FONT_BODY_BOLD).grid(row=0, column=0, sticky="w", pady=5)
@@ -66,7 +66,7 @@ class WarehouseView(tk.Frame):
         self.date_entry.grid(row=0, column=1, sticky="w", pady=5, padx=5)
         self.reset_date()
         
-        tk.Label(form_frame, text="Tipo Movimiento:", bg=config.COLOR_CARD, font=config.FONT_BODY_BOLD).grid(row=0, column=2, sticky="w", pady=5, padx=(15, 0))
+        tk.Label(form_frame, text="Tipo Movimiento:", bg=config.COLOR_CARD, font=config.FONT_BODY_BOLD).grid(row=0, column=2, sticky="w", pady=5, padx=(25, 0))
         self.type_combo = ttk.Combobox(form_frame, values=["Entrada (Compra)", "Salida (Consumo)"], state="readonly", width=18, font=config.FONT_BODY)
         self.type_combo.current(0)
         self.type_combo.grid(row=0, column=3, sticky="w", pady=5, padx=5)
@@ -76,7 +76,7 @@ class WarehouseView(tk.Frame):
         self.concept_entry = ttk.Entry(form_frame, width=22, font=config.FONT_BODY)
         self.concept_entry.grid(row=1, column=1, sticky="w", pady=5, padx=5)
         
-        tk.Label(form_frame, text="Cantidad (Unidades):", bg=config.COLOR_CARD, font=config.FONT_BODY_BOLD).grid(row=1, column=2, sticky="w", pady=5, padx=(15, 0))
+        tk.Label(form_frame, text="Cantidad (Unidades):", bg=config.COLOR_CARD, font=config.FONT_BODY_BOLD).grid(row=1, column=2, sticky="w", pady=5, padx=(25, 0))
         self.qty_entry = ttk.Entry(form_frame, width=12, font=config.FONT_BODY)
         self.qty_entry.grid(row=1, column=3, sticky="w", pady=5, padx=5)
         
@@ -84,42 +84,19 @@ class WarehouseView(tk.Frame):
         self.cost_entry = ttk.Entry(form_frame, width=15, font=config.FONT_BODY)
         self.cost_entry.grid(row=2, column=1, sticky="w", pady=5, padx=5)
         
-        # Botón de Registro
+        # Botón de Registro (Estilo Vantti POS: Dorado)
         reg_btn = tk.Button(form_frame, 
                             text="💾  Registrar en Almacén", 
                             font=config.FONT_BODY_BOLD, 
-                            fg=config.COLOR_TEXT_LIGHT, 
-                            bg=config.COLOR_SECONDARY, 
-                            activebackground=config.COLOR_HOVER, 
-                            activeforeground=config.COLOR_TEXT_LIGHT,
+                            fg=config.COLOR_PRIMARY, 
+                            bg=config.COLOR_GOLD, 
+                            activebackground="#F59E0B", 
+                            activeforeground=config.COLOR_PRIMARY,
                             bd=0, 
-                            padx=15, 
-                            pady=6,
+                            padx=20, 
+                            pady=8,
                             command=self.save_transaction)
         reg_btn.grid(row=2, column=2, columnspan=2, sticky="e", pady=5, padx=5)
-        
-        # Tarjeta explicativa de Fórmulas
-        formula_frame = tk.LabelFrame(middle_frame, 
-                                      text=" Fórmulas Contables Aplicadas ", 
-                                      font=config.FONT_SUBTITLE, 
-                                      fg=config.COLOR_GOLD_DARK, 
-                                      bg=config.COLOR_CARD, 
-                                      bd=1, 
-                                      padx=15, 
-                                      pady=10,
-                                      width=380)
-        formula_frame.pack_propagate(False)
-        formula_frame.pack(side="right", fill="both")
-        
-        formula_text = (
-            "1. Entrada: Aumenta la existencia y el saldo.\n"
-            "   Costo Unitario es el precio de adquisición.\n\n"
-            "2. Costo Promedio Ponderado:\n"
-            "   Costo Promedio = Saldo Valores Total / Existencia Total\n\n"
-            "3. Salida: Disminuye la existencia y el saldo.\n"
-            "   Valuación al último Costo Promedio calculado."
-        )
-        tk.Label(formula_frame, text=formula_text, font=("Segoe UI", 9), fg=config.COLOR_TEXT_MUTED, bg=config.COLOR_CARD, justify="left").pack(anchor="w")
         
         # 4. Tabla de Tarjeta de Almacén (Fila 3)
         table_frame = tk.Frame(self, bg=config.COLOR_BG, padx=20, pady=10)
