@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost ERP - Simulador Contable Interactivo de Costos</title>
+    <!-- Fuentes Google Fonts Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 1. BARRA SUPERIOR (TOP BAR) -->
+    <header class="top-bar">
+        <div class="logo-area">
+            <h1 class="logo-title">Cost ERP</h1>
+            <p class="logo-subtitle">Simulador contable modular de costos de producción</p>
+        </div>
+        <div class="header-actions">
+            <a href="https://github.com/Aoronae/Proyecto-Contabilidad-de-costos" target="_blank" class="github-link">
+                <span class="icon">💻</span> Ver Código en GitHub
+            </a>
+            <div class="profile-badge">
+                <div class="avatar">A</div>
+                <div class="profile-info">
+                    <span class="username">invitado</span>
+                    <span class="session-label">Demo Web</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL INFERIOR -->
+    <div class="main-container">
+        <!-- 2. MENÚ LATERAL (SIDEBAR) -->
+        <nav class="sidebar">
+            <div class="menu-container">
+                <div class="nav-item active" data-tab="init" title="Dashboard">
+                    <div class="icon-pill">🏢</div>
+                    <span class="nav-text">Dashboard</span>
+                </div>
+                <div class="nav-item" data-tab="warehouse" title="Almacén">
+                    <div class="icon-pill">📦</div>
+                    <span class="nav-text">Almacén</span>
+                </div>
+                <div class="nav-item" data-tab="simulation" title="Ciclo de Costos">
+                    <div class="icon-pill">⚡</div>
+                    <span class="nav-text">Simular</span>
+                </div>
+                <div class="nav-item" data-tab="reports" title="Reportes">
+                    <div class="icon-pill">📊</div>
+                    <span class="nav-text">Reportes</span>
+                </div>
+            </div>
+            
+            <!-- Botón de reinicio al fondo -->
+            <div class="sidebar-footer" id="btn-reset">
+                <div class="reset-icon">🔄</div>
+                <span class="footer-text">Reiniciar</span>
+            </div>
+        </nav>
+
+        <!-- 3. PANEL DE CONTENIDO GENERAL -->
+        <main class="content-panel">
+            
+            <!-- TAB 1: INITIALIZATION / DASHBOARD -->
+            <section class="tab-content active" id="tab-init">
+                <div class="view-header">
+                    <h2 class="view-title">Dashboard & Catálogo</h2>
+                    <p class="view-desc">Inicializa el sistema con el caso práctico escolar preconfigurado.</p>
+                </div>
+
+                <!-- Tarjeta Carga de Proyecto -->
+                <div class="card card-welcome">
+                    <div class="welcome-text">
+                        <h3>¡Bienvenido a Cost ERP Web!</h3>
+                        <p>Esta es la réplica interactiva en línea de tu sistema contable modular. Presiona el botón de la derecha para cargar de inmediato los saldos del caso práctico académico (Bancos, Almacenes y Maquinaria) para ver la simulación en acción.</p>
+                    </div>
+                    <button class="btn btn-gold" id="btn-load-practice">🚀 Cargar Caso Práctico</button>
+                </div>
+
+                <!-- Tabla del Catálogo de Cuentas -->
+                <div class="card card-table-container">
+                    <h3 class="card-title">Catálogo de Cuentas y Saldos en Tiempo Real</h3>
+                    <div class="table-responsive">
+                        <table class="data-table" id="table-catalog">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre de la Cuenta</th>
+                                    <th>Tipo</th>
+                                    <th>Naturaleza</th>
+                                    <th class="text-right">Saldo Actual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dinámico -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: WAREHOUSE / ALMACÉN -->
+            <section class="tab-content" id="tab-warehouse">
+                <div class="view-header">
+                    <h2 class="view-title">Tarjeta de Almacén</h2>
+                    <p class="view-desc">Control de inventario de materia prima utilizando el Método de Costo Promedio Ponderado (CPP).</p>
+                </div>
+
+                <!-- Panel KPIs -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <span class="kpi-title">EXISTENCIA EN ALMACÉN</span>
+                        <h4 class="kpi-value" id="kpi-qty">0 unidades</h4>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-title">COSTO PROMEDIO PONDERADO</span>
+                        <h4 class="kpi-value txt-gold" id="kpi-cpp">$ 0.00</h4>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-title">VALOR TOTAL EN INVENTARIO</span>
+                        <h4 class="kpi-value txt-blue" id="kpi-total-val">$ 0.00</h4>
+                    </div>
+                </div>
+
+                <!-- Formulario e Inputs -->
+                <div class="card card-form">
+                    <h3 class="card-title">Registrar Movimiento de Almacén</h3>
+                    <form class="horizontal-form" id="form-warehouse" onsubmit="return false;">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" id="wh-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Movimiento</label>
+                            <select id="wh-type">
+                                <option value="Entrada">Entrada (Compra)</option>
+                                <option value="Salida">Salida (Consumo)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Concepto</label>
+                            <input type="text" id="wh-concept" placeholder="Ej. Compra Lote 2" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cantidad (un.)</label>
+                            <input type="number" id="wh-qty" min="1" step="1" required>
+                        </div>
+                        <div class="form-group" id="group-wh-cost">
+                            <label>Costo Unitario ($)</label>
+                            <input type="number" id="wh-cost" min="0.01" step="0.01" value="100.00">
+                        </div>
+                        <button type="button" class="btn btn-gold btn-form-submit" id="btn-save-wh">💾 Registrar</button>
+                    </form>
+                </div>
+
+                <!-- Tabla Tarjeta de Almacén -->
+                <div class="card card-table-container">
+                    <h3 class="card-title">Ficha de Control de Inventario (CPP)</h3>
+                    <div class="table-responsive">
+                        <table class="data-table" id="table-warehouse">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Concepto</th>
+                                    <th>Tipo</th>
+                                    <th>Cant.</th>
+                                    <th class="text-right">C. Unitario</th>
+                                    <th class="text-right">Debe</th>
+                                    <th class="text-right">Haber</th>
+                                    <th>Existencia</th>
+                                    <th class="text-right">Saldo Valores</th>
+                                    <th class="text-right">C. Promedio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dinámico -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: SIMULATION / AUTOMATIZACIÓN -->
+            <section class="tab-content" id="tab-simulation">
+                <div class="view-header">
+                    <h2 class="view-title">Automatización de Costos</h2>
+                    <p class="view-desc">Simulador Inteligente: realiza traspasos de producción automáticos y calcula costos unitarios.</p>
+                </div>
+
+                <!-- Configuración Simulación -->
+                <div class="card card-welcome">
+                    <div class="welcome-text">
+                        <h3>Simulación del Ciclo Completo</h3>
+                        <p>Ajusta las variables de tu lote de producción. Al presionar el botón de abajo, JavaScript procesará el traspaso de MPD al costo promedio ponderado actual, aplicará MOD y GIF, y transferirá el costo acumulado a Producto Terminado.</p>
+                        
+                        <div class="sim-inputs-grid">
+                            <div class="form-group">
+                                <label>Producción Objetivo (un.)</label>
+                                <input type="number" id="sim-qty" value="500" min="1" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Precio Venta Unitario ($)</label>
+                                <input type="number" id="sim-price" value="350" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Costo MOD Unitario ($)</label>
+                                <input type="number" id="sim-mod" value="40" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Costo GIF Unitario ($)</label>
+                                <input type="number" id="sim-gif" value="20" min="1">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-gold btn-sim-large" id="btn-run-sim">⚡ Autocompletar Ciclo</button>
+                </div>
+
+                <!-- Diagrama de Flujo Visual -->
+                <div class="card flow-card-container">
+                    <h3 class="card-title">Flujo Contable de Costos de Producción</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-box">
+                            <span class="flow-tag bg-blue">1. COMPRAS</span>
+                            <h4>Almacén MP (1151)</h4>
+                            <p>Materias primas al costo promedio</p>
+                        </div>
+                        <div class="flow-arrow">➔</div>
+                        <div class="flow-box">
+                            <span class="flow-tag bg-gold">2. PROCESO</span>
+                            <h4>Producción en Proceso</h4>
+                            <p>Acumula MPD + MOD + GIF</p>
+                        </div>
+                        <div class="flow-arrow">➔</div>
+                        <div class="flow-box">
+                            <span class="flow-tag bg-blue">3. TERMINADO</span>
+                            <h4>Almacén PT (1153)</h4>
+                            <p>Valuado a Costo Unitario real</p>
+                        </div>
+                        <div class="flow-arrow">➔</div>
+                        <div class="flow-box">
+                            <span class="flow-tag bg-gold">4. VENTA</span>
+                            <h4>Costo de Ventas (5101)</h4>
+                            <p>Costo del lote de ventas facturado</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: REPORTS / REPORTES -->
+            <section class="tab-content" id="tab-reports">
+                <div class="view-header">
+                    <h2 class="view-title">Reportes & Punto de Equilibrio</h2>
+                    <p class="view-desc">Genera el Estado de Costos industrial y evalúa márgenes y punto crítico de equilibrio.</p>
+                </div>
+
+                <div class="reports-split">
+                    <!-- Estado de Costos (Izquierda) -->
+                    <div class="card card-report">
+                        <div class="report-header">
+                            <h3>PROYECTO DE PRÁCTICA DE COSTOS INDUSTRIALES S.A.</h3>
+                            <h4>Estado de Costos de Producción y de lo Vendido</h4>
+                            <p>Del 01 de Mayo al 30 de Mayo de 2026</p>
+                        </div>
+                        <div class="report-content" id="report-items">
+                            <!-- Dinámico en JS -->
+                        </div>
+                        <div class="report-footer-cost" id="report-unit-cost">
+                            Costo Unitario de Producción: $ 0.00
+                        </div>
+                    </div>
+
+                    <!-- Punto de Equilibrio y Gráfico (Derecha) -->
+                    <div class="card-pe-section">
+                        <!-- Variables PE -->
+                        <div class="card card-pe-vars">
+                            <h3 class="card-title">Análisis de Punto de Equilibrio</h3>
+                            <div class="pe-inputs-grid">
+                                <div class="form-group">
+                                    <label>Costos Fijos ($)</label>
+                                    <input type="number" id="pe-fc" value="45000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Precio de Venta ($)</label>
+                                    <input type="number" id="pe-price" value="350">
+                                </div>
+                                <div class="form-group">
+                                    <label>Costo Variable Unitario ($)</label>
+                                    <input type="number" id="pe-vc" value="215">
+                                </div>
+                            </div>
+                            
+                            <div class="pe-results">
+                                <p class="pe-res-item text-gold" id="txt-pe-units">Punto de Equilibrio: -- unidades</p>
+                                <p class="pe-res-item text-blue" id="txt-pe-sales">Ventas Requeridas: $ --</p>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Gráfica -->
+                        <div class="card card-pe-chart">
+                            <h4 class="chart-title">Gráfica del Punto de Equilibrio</h4>
+                            <div class="canvas-container">
+                                <canvas id="chartCanvas" width="460" height="280"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script principal de la aplicación -->
+    <script src="app.js"></script>
+</body>
+</html>
