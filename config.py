@@ -18,6 +18,7 @@ COLOR_HOVER = "#2563EB"       # Azul brillante (Blue 600) para estados hover
 
 # Detalles, alertas, bordes de selección y resaltados: Dorado (Gold/Amber)
 COLOR_GOLD = "#D4AF37"        # Dorado Metálico
+COLOR_ACCENT = "#D4AF37"      # Color de acento para la selección y enfoque
 COLOR_GOLD_DARK = "#B45309"   # Ámbar oscuro para texto legible
 COLOR_GOLD_LIGHT = "#FEF3C7"  # Amarillo/Dorado claro para fondos de alerta
 
