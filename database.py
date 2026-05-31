@@ -16,6 +16,7 @@ def get_default_data():
     saldos = {code: 0.0 for code in CATALOGO_CUENTAS}
     return {
         "practice_project_loaded": False,
+        "catalogo": CATALOGO_CUENTAS.copy(),
         "saldos": saldos,
         "diario": [],
         "almacen": [],
@@ -37,8 +38,9 @@ def load_db():
         with open(DB_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
             # Asegurar que todas las cuentas estén inicializadas si se agregó alguna nueva
+            catalogo = data.setdefault("catalogo", CATALOGO_CUENTAS.copy())
             saldos = data.setdefault("saldos", {})
-            for code in CATALOGO_CUENTAS:
+            for code in catalogo:
                 if code not in saldos:
                     saldos[code] = 0.0
             data.setdefault("diario", [])

@@ -281,8 +281,11 @@ class LedgerView(tk.Frame):
         total_debe = 0.0
         total_haber = 0.0
         
+        data = database.load_db()
+        catalogo = data.get("catalogo", config.CATALOGO_CUENTAS)
+        
         for mov in self.draft_movements:
-            cta_name = config.CATALOGO_CUENTAS[mov["cuenta"]]["nombre"]
+            cta_name = catalogo.get(mov["cuenta"], {}).get("nombre", "Cuenta Desconocida")
             cta_display = f"{mov['cuenta']} - {cta_name}"
             
             debe_display = f"$ {mov['debe']:,.2f}" if mov["debe"] > 0 else "-"
@@ -341,12 +344,17 @@ class LedgerView(tk.Frame):
             
         data = database.load_db()
         diario = data.get("diario", [])
+        catalogo = data.get("catalogo", config.CATALOGO_CUENTAS)
+        
+        # Actualizar opciones de cuentas contables del combobox dinámicamente
+        account_choices = [f"{code} - {info['nombre']}" for code, info in sorted(catalogo.items())]
+        self.combo_account.configure(values=account_choices)
         
         for asiento in diario:
             # Insertamos la fila principal
             first_row = True
             for m in asiento["movimientos"]:
-                cta_name = config.CATALOGO_CUENTAS[m["cuenta"]]["nombre"]
+                cta_name = catalogo.get(m["cuenta"], {}).get("nombre", "Cuenta Desconocida")
                 cta_disp = f"   {m['cuenta']} - {cta_name}"
                 
                 debe_str = f"$ {m['debe']:,.2f}" if m["debe"] > 0 else ""
@@ -381,7 +389,8 @@ class LedgerView(tk.Frame):
             
         # Agrupar las cuentas activas (aquellas con al menos un movimiento o saldo)
         activas = []
-        for code in config.CATALOGO_CUENTAS.keys():
+        catalogo = data.get("catalogo", config.CATALOGO_CUENTAS)
+        for code in catalogo.keys():
             t_data = models.obtener_cuenta_t(data, code)
             if t_data["cargos"] or t_data["abonos"] or t_data["total_debe"] > 0 or t_data["total_haber"] > 0:
                 activas.append(t_data)

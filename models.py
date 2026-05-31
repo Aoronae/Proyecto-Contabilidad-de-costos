@@ -13,7 +13,8 @@ def recalcular_saldos(data):
     Recalcula los saldos de todas las cuentas a partir del Libro Diario para
     garantizar que la información esté 100% sincronizada.
     """
-    saldos = {code: 0.0 for code in CATALOGO_CUENTAS}
+    catalogo = data.get("catalogo", CATALOGO_CUENTAS)
+    saldos = {code: 0.0 for code in catalogo}
     
     for asiento in data["diario"]:
         for mov in asiento["movimientos"]:
@@ -22,7 +23,7 @@ def recalcular_saldos(data):
             haber = float(mov.get("haber", 0.0))
             
             if cta in saldos:
-                info = CATALOGO_CUENTAS[cta]
+                info = catalogo[cta]
                 if info["naturaleza"] == "Deudora":
                     saldos[cta] += (debe - haber)
                 else:
@@ -161,6 +162,8 @@ def obtener_cuenta_t(data, account_code):
     cargos = []
     abonos = []
     
+    catalogo = data.get("catalogo", CATALOGO_CUENTAS)
+    
     for asiento in data["diario"]:
         for mov in asiento["movimientos"]:
             if mov["cuenta"] == account_code:
@@ -175,7 +178,7 @@ def obtener_cuenta_t(data, account_code):
     total_debe = round(sum(c["importe"] for c in cargos), 2)
     total_haber = round(sum(a["importe"] for a in abonos), 2)
     
-    nature = CATALOGO_CUENTAS[account_code]["naturaleza"]
+    nature = catalogo[account_code]["naturaleza"]
     saldo_deudor = 0.0
     saldo_acreedor = 0.0
     
@@ -194,7 +197,7 @@ def obtener_cuenta_t(data, account_code):
             
     return {
         "codigo": account_code,
-        "nombre": CATALOGO_CUENTAS[account_code]["nombre"],
+        "nombre": catalogo[account_code]["nombre"],
         "cargos": cargos,
         "abonos": abonos,
         "total_debe": total_debe,
