@@ -55,6 +55,14 @@
                     </div>
                     <span class="nav-text">Almacén</span>
                 </div>
+                <div class="nav-item" data-tab="ledger" title="Libro Diario y Esquemas T">
+                    <div class="icon-pill">
+                        <svg class="nav-svg" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v17M12 20H4M12 20h8M4 7h16M4 7c0 2 3 4 3 4s3-2 3-4M14 7c0 2 3 4 3 4s3-2 3-4"></path>
+                        </svg>
+                    </div>
+                    <span class="nav-text">Diario</span>
+                </div>
                 <div class="nav-item" data-tab="simulation" title="Ciclo de Costos">
                     <div class="icon-pill">
                         <svg class="nav-svg" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -111,6 +119,12 @@
                 <!-- Tabla del Catálogo de Cuentas -->
                 <div class="card card-table-container">
                     <h3 class="card-title">Catálogo de Cuentas y Saldos en Tiempo Real</h3>
+                    
+                    <div class="catalog-btn-bar" style="margin-bottom: 15px; display: flex; gap: 10px;">
+                        <button class="btn btn-gold" id="btn-add-account" style="padding: 8px 16px; font-size: 0.85rem;">✚  Agregar Cuenta Contable</button>
+                        <button class="btn btn-gold" id="btn-adjust-saldo" style="padding: 8px 16px; font-size: 0.85rem;">✎  Ajustar Saldo Inicial</button>
+                    </div>
+                    
                     <div class="table-responsive">
                         <table class="data-table" id="table-catalog">
                             <thead>
@@ -207,6 +221,117 @@
                                 <!-- Dinámico -->
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2.5: JOURNAL / DIARIO Y CUENTAS T -->
+            <section class="tab-content" id="tab-ledger">
+                <div class="view-header">
+                    <h2 class="view-title">Libro Diario y Esquemas de Mayor</h2>
+                    <p class="view-desc">Registra asientos contables con validación de partida doble y visualiza su mayorización.</p>
+                </div>
+
+                <div class="ledger-split">
+                    <!-- Columna Izquierda: Captura de Asientos y Diario General -->
+                    <div class="ledger-left">
+                        <div class="card card-form">
+                            <h3 class="card-title">Crear Asiento Contable (Partida Doble)</h3>
+                            <form id="form-journal" class="ledger-entry-form" onsubmit="return false;">
+                                <div class="form-header-row" style="display:flex; gap:15px; margin-bottom:12px;">
+                                    <div class="form-group" style="flex:1;">
+                                        <label>Fecha</label>
+                                        <input type="date" id="journal-date" required>
+                                    </div>
+                                    <div class="form-group" style="flex:2;">
+                                        <label>Concepto / Glosa</label>
+                                        <input type="text" id="journal-concept" placeholder="Ej. Asiento de Apertura" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="divider" style="height:1px; background:#E2E8F0; margin:10px 0;"></div>
+                                
+                                <div class="form-movement-row" style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:12px; margin-bottom:12px;">
+                                    <div class="form-group" style="flex:2; min-width:180px;">
+                                        <label>Cuenta</label>
+                                        <select id="journal-account">
+                                            <!-- Dinámico -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="flex:1; min-width:100px;">
+                                        <label>Debe ($)</label>
+                                        <input type="number" id="journal-debe" value="0.00" min="0" step="0.01">
+                                    </div>
+                                    <div class="form-group" style="flex:1; min-width:100px;">
+                                        <label>Haber ($)</label>
+                                        <input type="number" id="journal-haber" value="0.00" min="0" step="0.01">
+                                    </div>
+                                    <button type="button" class="btn btn-gold" id="btn-add-movement" style="height:38px; padding: 0 15px;">✚  Agregar</button>
+                                </div>
+                                
+                                <!-- Tabla borrador en caliente -->
+                                <div class="table-responsive" style="margin: 10px 0; border: 1px solid #E2E8F0; border-radius: 8px; max-height:150px; overflow-y:auto;">
+                                    <table class="data-table" id="table-draft" style="font-size:0.8rem;">
+                                        <thead>
+                                            <tr>
+                                                  <th>Cuenta Contable</th>
+                                                  <th class="text-right">Cargo (Debe)</th>
+                                                  <th class="text-right">Abono (Haber)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dinámico -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <!-- Footer del borrador contable -->
+                                <div class="draft-footer" style="display:flex; justify-content:space-between; align-items:center; margin:10px 0;">
+                                    <div style="font-weight:700; font-size:0.85rem;">
+                                        <span id="draft-sum-debe" style="color:var(--color-debe); margin-right:15px;">Total Debe: $0.00</span>
+                                        <span id="draft-sum-haber" style="color:var(--color-haber);">Total Haber: $0.00</span>
+                                    </div>
+                                    <span class="status-pill text-gold" id="draft-balance-status" style="font-size:0.75rem; font-weight:700; padding:4px 8px; border-radius:4px; background:var(--color-gold-light);">Descuadrado</span>
+                                </div>
+                                
+                                <div class="form-action-row" style="display:flex; justify-content:space-between; margin-top:10px;">
+                                    <button type="button" class="btn" id="btn-del-draft-row" style="padding:8px 12px; font-size:0.8rem; background:#FFF; color:#EF4444; border:1px solid #EF4444;">✖  Eliminar Fila</button>
+                                    <button type="button" class="btn btn-gold" id="btn-save-journal" style="padding:10px 20px; font-size:0.85rem;">✔  Guardar Asiento Diario</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Historial Diario General -->
+                        <div class="card card-table-container">
+                            <h3 class="card-title">Historial de Asientos Contables Registrados</h3>
+                            <div class="table-responsive" style="max-height: 350px; overflow-y:auto;">
+                                <table class="data-table" id="table-journal">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Fecha</th>
+                                            <th>Concepto / Glosa</th>
+                                            <th>Cuentas / Movimientos</th>
+                                            <th class="text-right">Debe</th>
+                                            <th class="text-right">Haber</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Columna Derecha: Cuentas T (Mayorización) -->
+                    <div class="ledger-right">
+                        <div class="card" style="height:100%; display:flex; flex-direction:column;">
+                            <h3 class="card-title">Esquemas de Mayor (Cuentas T)</h3>
+                            <div class="cuentas-t-container" id="cuentas-t-grid" style="flex:1; overflow-y:auto; padding-right:5px; max-height: 800px; display:grid; grid-template-columns: 1fr; gap:15px;">
+                                <!-- Dinámico -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -337,6 +462,63 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- MODAL NUEVA CUENTA -->
+    <div class="modal-overlay" id="modal-add-account">
+        <div class="modal-content">
+            <h3 class="modal-title">Agregar Cuenta Contable</h3>
+            <div class="modal-body">
+                <div class="form-group" style="margin-bottom:12px;">
+                    <label>Código de Cuenta</label>
+                    <input type="text" id="m-add-code" placeholder="Ej. 1105">
+                </div>
+                <div class="form-group" style="margin-bottom:12px;">
+                    <label>Nombre de la Cuenta</label>
+                    <input type="text" id="m-add-name" placeholder="Ej. Clientes">
+                </div>
+                <div class="form-group" style="margin-bottom:12px;">
+                    <label>Tipo de Cuenta</label>
+                    <select id="m-add-type">
+                        <option value="Activo">Activo</option>
+                        <option value="Pasivo">Pasivo</option>
+                        <option value="Capital">Capital</option>
+                        <option value="Ingresos">Ingresos</option>
+                        <option value="Costos">Costos</option>
+                        <option value="Gastos">Gastos</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom:15px;">
+                    <label>Naturaleza</label>
+                    <select id="m-add-nature">
+                        <option value="Deudora">Deudora</option>
+                        <option value="Acreedora">Acreedora</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-actions" style="display:flex; justify-content:flex-end; gap:10px;">
+                <button class="btn" id="btn-cancel-add-account" style="background:#E2E8F0; color:var(--color-primary);">Cancelar</button>
+                <button class="btn btn-gold" id="btn-save-add-account">Guardar Cuenta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL AJUSTAR SALDO -->
+    <div class="modal-overlay" id="modal-adjust-saldo">
+        <div class="modal-content">
+            <h3 class="modal-title" id="m-adj-title">Ajustar Saldo Inicial</h3>
+            <div class="modal-body">
+                <input type="hidden" id="m-adj-code">
+                <div class="form-group" style="margin-bottom:15px;">
+                    <label>Nuevo Saldo Inicial ($)</label>
+                    <input type="number" id="m-adj-val" min="0" step="0.01">
+                </div>
+            </div>
+            <div class="modal-actions" style="display:flex; justify-content:flex-end; gap:10px;">
+                <button class="btn" id="btn-cancel-adjust-saldo" style="background:#E2E8F0; color:var(--color-primary);">Cancelar</button>
+                <button class="btn btn-gold" id="btn-save-adjust-saldo">Actualizar Saldo</button>
+            </div>
+        </div>
     </div>
 
     <!-- Script principal de la aplicación -->

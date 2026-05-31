@@ -133,7 +133,7 @@ class WarehouseView(tk.Frame):
             widget.destroy()
             
         kpis = [
-            ("📥  EXISTENCIA ACTUAL", "0 unidades", "existencia", config.COLOR_PRIMARY),
+            ("⌸  EXISTENCIA ACTUAL", "0 unidades", "existencia", config.COLOR_PRIMARY),
             ("⛁  COSTO PROMEDIO CPP", "$ 0.00", "cpp", config.COLOR_GOLD_DARK),
             ("⛃  VALOR TOTAL EN ALMACÉN", "$ 0.00", "valor", config.COLOR_SECONDARY)
         ]

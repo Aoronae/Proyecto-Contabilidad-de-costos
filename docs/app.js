@@ -25,6 +25,7 @@ const CATALOGO_CUENTAS = {
 // --- 2. BASE DE DATOS LOCAL EN MEMORIA (ESTADO DE LA DEMO) ---
 let state = {
     practiceLoaded: false,
+    catalogo: {},
     saldos: {},
     diario: [],
     almacen: [],
@@ -36,11 +37,39 @@ let state = {
     }
 };
 
+let draftMovements = []; // Borrador de movimientos del asiento actual
+
+// Guardar estado en localStorage
+function saveState() {
+    localStorage.setItem("cost_erp_state", JSON.stringify(state));
+}
+
+// Cargar estado de localStorage
+function loadState() {
+    const saved = localStorage.getItem("cost_erp_state");
+    if (!saved) return false;
+    try {
+        state = JSON.parse(saved);
+        // Garantizar que tenga catalogo
+        if (!state.catalogo) {
+            state.catalogo = JSON.parse(JSON.stringify(CATALOGO_CUENTAS));
+        }
+        return true;
+    } catch (e) {
+        console.error("Error al parsear estado de localStorage:", e);
+        return false;
+    }
+}
+
 // --- 3. INICIALIZACIÓN ---
 document.addEventListener("DOMContentLoaded", () => {
-    resetState();
+    if (!loadState()) {
+        resetState();
+    }
     setupNavigation();
     setupEventListeners();
+    setupLedgerEventListeners(); // Registrar eventos del Libro Diario
+    setupModalEventListeners();  // Registrar eventos de los Modales
     updateUI();
 });
 
@@ -49,6 +78,7 @@ function resetState() {
     state.practiceLoaded = false;
     state.diario = [];
     state.almacen = [];
+    state.catalogo = JSON.parse(JSON.stringify(CATALOGO_CUENTAS));
     state.configCostos = {
         precioVenta: 350.0,
         costoVariableU: 120.0,
@@ -58,9 +88,12 @@ function resetState() {
     
     // Inicializar saldos en cero
     state.saldos = {};
-    for (let code in CATALOGO_CUENTAS) {
+    for (let code in state.catalogo) {
         state.saldos[code] = 0.0;
     }
+    
+    draftMovements = [];
+    saveState();
 }
 
 // Navegación entre Pestañas (SPA)
@@ -146,7 +179,7 @@ function setupEventListeners() {
 // Recalcular saldos del Libro Diario (Mayorización Dinámica)
 function recalcularSaldos() {
     // Resetear
-    for (let code in CATALOGO_CUENTAS) {
+    for (let code in state.catalogo) {
         state.saldos[code] = 0.0;
     }
     
@@ -157,7 +190,7 @@ function recalcularSaldos() {
             const haber = parseFloat(mov.haber || 0.0);
             
             if (code in state.saldos) {
-                const info = CATALOGO_CUENTAS[code];
+                const info = state.catalogo[code];
                 if (info.naturaleza === "Deudora") {
                     state.saldos[code] += (debe - haber);
                 } else {
@@ -195,6 +228,7 @@ function registrarAsiento(fecha, concepto, movimientos) {
     
     state.diario.push(nuevoAsiento);
     recalcularSaldos();
+    saveState();
     return nuevoAsiento;
 }
 
@@ -495,22 +529,43 @@ function updateUI() {
     updateWarehouseUI();
     updateReportsUI();
     updatePEDisplay();
+    updateJournalAccountsSelect(); // Sincronizar cuentas en selector del diario
+    renderJournalHistory();        // Pintar diario general
+    renderCuentasT();              // Pintar esquemas de mayor
+}
+
+// Actualizar el selector de cuentas del Libro Diario
+function updateJournalAccountsSelect() {
+    const select = document.getElementById("journal-account");
+    if (!select) return;
+    select.innerHTML = "";
+    
+    const sortedCodes = Object.keys(state.catalogo).sort();
+    sortedCodes.forEach(code => {
+        const option = document.createElement("option");
+        option.value = code;
+        option.innerText = `${code} - ${state.catalogo[code].nombre}`;
+        select.appendChild(option);
+    });
 }
 
 // Pintar Catálogo de Cuentas
 function updateCatalogUI() {
     const tbody = document.querySelector("#table-catalog tbody");
+    if (!tbody) return;
     tbody.innerHTML = "";
     
     // Cuentas ordenadas por código
-    const sortedCodes = Object.keys(CATALOGO_CUENTAS).sort();
+    const sortedCodes = Object.keys(state.catalogo).sort();
     
     sortedCodes.forEach(code => {
-        const info = CATALOGO_CUENTAS[code];
+        const info = state.catalogo[code];
         const saldo = state.saldos[code] || 0.0;
         const saldoStr = saldo > 0 ? `$ ${saldo.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "$ 0.00";
         
         const row = document.createElement("tr");
+        row.style.cursor = "pointer";
+        row.setAttribute("data-code", code);
         row.innerHTML = `
             <td><strong>${code}</strong></td>
             <td>${info.nombre}</td>
@@ -518,6 +573,19 @@ function updateCatalogUI() {
             <td>${info.naturaleza}</td>
             <td class="text-right"><strong>${saldoStr}</strong></td>
         `;
+        // Enlazar doble clic para ajustar saldo
+        row.addEventListener("dblclick", () => {
+            openAdjustSaldo(code, info.nombre);
+        });
+        // Enlazar click simple para resaltar
+        row.addEventListener("click", () => {
+            tbody.querySelectorAll("tr").forEach(r => {
+                r.classList.remove("selected_catalog");
+                r.style.backgroundColor = "";
+            });
+            row.classList.add("selected_catalog");
+            row.style.backgroundColor = "var(--color-gold-light)";
+        });
         tbody.appendChild(row);
     });
 }
@@ -847,4 +915,492 @@ function drawPEChart(fc, price, vc, peUnits) {
         ctx.textAlign = "left";
         ctx.fillText(`PE (${Math.round(peUnits)} un.)`, pePos.x + 10, pePos.y - 4);
     }
+}
+
+/* ==========================================================================
+   MÓDULOS DE LIBRO DIARIO, CUENTAS T Y MODALES (PARIDAD CON PYTHON)
+   ========================================================================== */
+
+// --- EVENTOS DEL LIBRO DIARIO ---
+function setupLedgerEventListeners() {
+    // Inicializar inputs del Diario con la fecha de hoy
+    const jDate = document.getElementById("journal-date");
+    if (jDate) {
+        jDate.value = new Date().toISOString().split("T")[0];
+    }
+    
+    // Agregar movimiento al borrador
+    const btnAdd = document.getElementById("btn-add-movement");
+    if (btnAdd) {
+        btnAdd.addEventListener("click", addMovementToDraft);
+    }
+    
+    // Eliminar fila del borrador
+    const btnDelRow = document.getElementById("btn-del-draft-row");
+    if (btnDelRow) {
+        btnDelRow.addEventListener("click", () => {
+            const table = document.getElementById("table-draft");
+            const selectedRow = table.querySelector("tbody tr.selected");
+            if (!selectedRow) {
+                alert("Por favor, selecciona una fila del borrador contable para eliminar.");
+                return;
+            }
+            const idx = parseInt(selectedRow.getAttribute("data-index"));
+            draftMovements.splice(idx, 1);
+            updateDraftUI();
+        });
+    }
+    
+    // Guardar Asiento Diario completo
+    const btnSaveJournal = document.getElementById("btn-save-journal");
+    if (btnSaveJournal) {
+        btnSaveJournal.addEventListener("click", submitAsientoContable);
+    }
+}
+
+// Agregar movimiento individual al borrador en memoria
+function addMovementToDraft() {
+    const acctSelect = document.getElementById("journal-account");
+    const code = acctSelect.value;
+    const debe = parseFloat(document.getElementById("journal-debe").value) || 0.0;
+    const haber = parseFloat(document.getElementById("journal-haber").value) || 0.0;
+    
+    if (debe < 0 || haber < 0) {
+        alert("Los importes deben ser mayores o iguales a cero.");
+        return;
+    }
+    if (debe === 0 && haber === 0) {
+        alert("Ingresa un importe mayor a cero en el Debe o en el Haber.");
+        return;
+    }
+    if (debe > 0 && haber > 0) {
+        alert("Un mismo renglón no puede tener valores en el Debe y en el Haber simultáneamente. Registre dos filas por separado.");
+        return;
+    }
+    
+    draftMovements.push({ cuenta: code, debe: debe, haber: haber });
+    
+    // Resetear campos de importes
+    document.getElementById("journal-debe").value = "0.00";
+    document.getElementById("journal-haber").value = "0.00";
+    
+    updateDraftUI();
+}
+
+// Pintar UI del borrador
+function updateDraftUI() {
+    const tbody = document.querySelector("#table-draft tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+    
+    let totalDebe = 0.0;
+    let totalHaber = 0.0;
+    
+    draftMovements.forEach((mov, idx) => {
+        const ctaName = state.catalogo[mov.cuenta].nombre;
+        const ctaDisplay = `${mov.cuenta} - ${ctaName}`;
+        
+        const debeDisp = mov.debe > 0 ? `$ ${mov.debe.toFixed(2)}` : "-";
+        const haberDisp = mov.haber > 0 ? `$ ${mov.haber.toFixed(2)}` : "-";
+        
+        const row = document.createElement("tr");
+        row.setAttribute("data-index", idx);
+        row.innerHTML = `
+            <td>${ctaDisplay}</td>
+            <td class="text-right debe-val">${debeDisp}</td>
+            <td class="text-right haber-val">${haberDisp}</td>
+        `;
+        row.addEventListener("click", () => {
+            tbody.querySelectorAll("tr").forEach(r => r.classList.remove("selected"));
+            row.classList.add("selected");
+            tbody.querySelectorAll("tr").forEach(r => r.style.backgroundColor = "");
+            row.style.backgroundColor = "var(--color-gold-light)";
+        });
+        tbody.appendChild(row);
+        
+        totalDebe += mov.debe;
+        totalHaber += mov.haber;
+    });
+    
+    totalDebe = Math.round(totalDebe * 100) / 100;
+    totalHaber = Math.round(totalHaber * 100) / 100;
+    
+    document.getElementById("draft-sum-debe").innerText = `Total Debe: $${totalDebe.toFixed(2)}`;
+    document.getElementById("draft-sum-haber").innerText = `Total Haber: $${totalHaber.toFixed(2)}`;
+    
+    const statusPill = document.getElementById("draft-balance-status");
+    if (totalDebe === totalHaber && draftMovements.length > 0) {
+        statusPill.innerText = "Cuadrado";
+        statusPill.style.backgroundColor = "var(--color-debe)";
+        statusPill.style.color = "#FFFFFF";
+    } else {
+        statusPill.innerText = "Descuadrado";
+        statusPill.style.backgroundColor = "var(--color-gold-light)";
+        statusPill.style.color = "var(--color-gold-dark)";
+    }
+}
+
+// Guardar Asiento Diario en el Historial Contable
+function submitAsientoContable() {
+    const fecha = document.getElementById("journal-date").value;
+    const concepto = document.getElementById("journal-concept").value.trim();
+    
+    if (!fecha || !concepto) {
+        alert("Por favor, especifica la Fecha y el Concepto o Glosa del asiento.");
+        return;
+    }
+    if (draftMovements.length === 0) {
+        alert("El borrador del asiento está vacío. Agrega cargos y abonos primero.");
+        return;
+    }
+    
+    try {
+        registrarAsiento(fecha, concepto, draftMovements);
+        alert(`¡Asiento contable '${concepto}' registrado y mayorizado exitosamente!`);
+        
+        // Limpiar
+        draftMovements = [];
+        document.getElementById("journal-concept").value = "";
+        updateDraftUI();
+        updateUI();
+    } catch (e) {
+        alert(e.message);
+    }
+}
+
+// --- EVENTOS DE LOS MODALES CONTABLES ---
+function setupModalEventListeners() {
+    // Abrir Modal Agregar Cuenta
+    const btnOpenAdd = document.getElementById("btn-add-account");
+    const modalAdd = document.getElementById("modal-add-account");
+    if (btnOpenAdd && modalAdd) {
+        btnOpenAdd.addEventListener("click", () => {
+            document.getElementById("m-add-code").value = "";
+            document.getElementById("m-add-name").value = "";
+            modalAdd.classList.add("active");
+        });
+    }
+    
+    // Cerrar Modal Agregar Cuenta
+    const btnCancelAdd = document.getElementById("btn-cancel-add-account");
+    if (btnCancelAdd && modalAdd) {
+        btnCancelAdd.addEventListener("click", () => {
+            modalAdd.classList.remove("active");
+        });
+    }
+    
+    // Guardar Nueva Cuenta Contable
+    const btnSaveAdd = document.getElementById("btn-save-add-account");
+    if (btnSaveAdd && modalAdd) {
+        btnSaveAdd.addEventListener("click", () => {
+            const code = document.getElementById("m-add-code").value.trim();
+            const name = document.getElementById("m-add-name").value.trim();
+            const tType = document.getElementById("m-add-type").value;
+            const nature = document.getElementById("m-add-nature").value;
+            
+            if (!code || !name) {
+                alert("Todos los campos del formulario son requeridos.");
+                return;
+            }
+            if (!/^\d+$/.test(code)) {
+                alert("El código de cuenta debe ser numérico.");
+                return;
+            }
+            if (code in state.catalogo) {
+                alert(`El código '${code}' ya está registrado en el catálogo.`);
+                return;
+            }
+            
+            state.catalogo[code] = { nombre: name, tipo: tType, naturaleza: nature };
+            state.saldos[code] = 0.0;
+            saveState();
+            modalAdd.classList.remove("active");
+            updateUI();
+            alert(`Cuenta contable '${code} - ${name}' agregada con éxito al catálogo.`);
+        });
+    }
+    
+    // Abrir Modal Ajustar Saldo (Desde Botón de Catálogo)
+    const btnOpenAdjust = document.getElementById("btn-adjust-saldo");
+    if (btnOpenAdjust) {
+        btnOpenAdjust.addEventListener("click", () => {
+            const table = document.getElementById("table-catalog");
+            const selectedRow = table.querySelector("tbody tr.selected_catalog");
+            if (!selectedRow) {
+                alert("Por favor, selecciona una cuenta contable del catálogo haciendo un clic en ella y luego presiona este botón, o bien haz doble clic directamente.");
+                return;
+            }
+            const code = selectedRow.getAttribute("data-code");
+            const name = state.catalogo[code].nombre;
+            openAdjustSaldo(code, name);
+        });
+    }
+    
+    // Cerrar Modal Ajustar Saldo
+    const modalAdjust = document.getElementById("modal-adjust-saldo");
+    const btnCancelAdjust = document.getElementById("btn-cancel-adjust-saldo");
+    if (btnCancelAdjust && modalAdjust) {
+        btnCancelAdjust.addEventListener("click", () => {
+            modalAdjust.classList.remove("active");
+        });
+    }
+    
+    // Guardar Ajuste de Saldo
+    const btnSaveAdjust = document.getElementById("btn-save-adjust-saldo");
+    if (btnSaveAdjust && modalAdjust) {
+        btnSaveAdjust.addEventListener("click", () => {
+            const code = document.getElementById("m-adj-code").value;
+            const val = parseFloat(document.getElementById("m-adj-val").value);
+            
+            if (isNaN(val) || val < 0) {
+                alert("El saldo inicial debe ser un número válido mayor o igual a cero.");
+                return;
+            }
+            
+            state.saldos[code] = Math.round(val * 100) / 100;
+            saveState();
+            modalAdjust.classList.remove("active");
+            updateUI();
+            alert(`Saldo inicial de '${code}' actualizado a $${val.toFixed(2)}.`);
+        });
+    }
+}
+
+// Abrir modal de saldo inicial
+function openAdjustSaldo(code, name) {
+    const modalAdjust = document.getElementById("modal-adjust-saldo");
+    if (modalAdjust) {
+        document.getElementById("m-adj-title").innerText = `Ajustar Saldo Inicial\n${code} - ${name.toUpperCase()}`;
+        document.getElementById("m-adj-code").value = code;
+        document.getElementById("m-adj-val").value = (state.saldos[code] || 0.0).toFixed(2);
+        modalAdjust.classList.add("active");
+    }
+}
+
+// --- RENDERIZACIÓN DE DIARIO Y CUENTAS T EN LA WEB ---
+
+// Pintar el Historial del Diario General Completo
+function renderJournalHistory() {
+    const tbody = document.querySelector("#table-journal tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+    
+    state.diario.forEach(asiento => {
+        let firstRow = true;
+        asiento.movimientos.forEach(m => {
+            const ctaName = state.catalogo[m.cuenta] ? state.catalogo[m.cuenta].nombre : "Cuenta Desconocida";
+            const ctaDisp = `&nbsp;&nbsp;&nbsp;&nbsp;${m.cuenta} - ${ctaName}`;
+            
+            const debeStr = m.debe > 0 ? `$ ${m.debe.toLocaleString("es-MX", { minimumFractionDigits: 2 })}` : "";
+            const haberStr = m.haber > 0 ? `$ ${m.haber.toLocaleString("es-MX", { minimumFractionDigits: 2 })}` : "";
+            
+            const row = document.createElement("tr");
+            if (firstRow) {
+                row.innerHTML = `
+                    <td><strong>${asiento.id}</strong></td>
+                    <td>${asiento.fecha}</td>
+                    <td><strong>${asiento.concepto}</strong></td>
+                    <td>${ctaDisp}</td>
+                    <td class="text-right debe-val">${debeStr}</td>
+                    <td class="text-right haber-val">${haberStr}</td>
+                `;
+                firstRow = false;
+            } else {
+                row.innerHTML = `
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${ctaDisp}</td>
+                    <td class="text-right debe-val">${debeStr}</td>
+                    <td class="text-right haber-val">${haberStr}</td>
+                `;
+            }
+            tbody.appendChild(row);
+        });
+        
+        // Línea divisoria en blanco
+        const spaceRow = document.createElement("tr");
+        spaceRow.innerHTML = `<td colspan="6" style="height:8px; border-bottom:none; background-color:#F8FAFC;"></td>`;
+        tbody.appendChild(spaceRow);
+    });
+}
+
+// Obtener datos mayorizados de una cuenta contable específica
+function obtenerCuentaTData(code) {
+    const cargos = [];
+    const abonos = [];
+    
+    state.diario.forEach(asiento => {
+        asiento.movimientos.forEach(m => {
+            if (m.cuenta === code) {
+                const info = { fecha: asiento.fecha, concepto: asiento.concepto, id: asiento.id };
+                if (m.debe > 0) {
+                    info.importe = m.debe;
+                    cargos.push(info);
+                }
+                if (m.haber > 0) {
+                    info.importe = m.haber;
+                    abonos.push(info);
+                }
+            }
+        });
+    });
+    
+    let totalDebe = cargos.reduce((acc, c) => acc + c.importe, 0);
+    let totalHaber = abonos.reduce((acc, a) => acc + a.importe, 0);
+    
+    totalDebe = Math.round(totalDebe * 100) / 100;
+    totalHaber = Math.round(totalHaber * 100) / 100;
+    
+    const nature = state.catalogo[code].naturaleza;
+    let saldoDeudor = 0.0;
+    let saldoAcreedor = 0.0;
+    
+    if (nature === "Deudora") {
+        const diff = totalDebe - totalHaber;
+        if (diff >= 0) {
+            saldoDeudor = Math.round(diff * 100) / 100;
+        } else {
+            saldoAcreedor = Math.round(Math.abs(diff) * 100) / 100;
+        }
+    } else {
+        const diff = totalHaber - totalDebe;
+        if (diff >= 0) {
+            saldoAcreedor = Math.round(diff * 100) / 100;
+        } else {
+            saldoDeudor = Math.round(Math.abs(diff) * 100) / 100;
+        }
+    }
+    
+    return {
+        codigo: code,
+        nombre: state.catalogo[code].nombre,
+        cargos: cargos,
+        abonos: abonos,
+        totalDebe: totalDebe,
+        totalHaber: totalHaber,
+        saldoDeudor: saldoDeudor,
+        saldoAcreedor: saldoAcreedor
+    };
+}
+
+// Pintar Cuentas T dinámicamente con HTML y CSS
+function renderCuentasT() {
+    const grid = document.getElementById("cuentas-t-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    
+    // Filtrar cuentas contables con movimientos o saldos
+    const activeAccounts = [];
+    for (let code in state.catalogo) {
+        const t = obtenerCuentaTData(code);
+        if (t.cargos.length > 0 || t.abonos.length > 0 || t.totalDebe > 0 || t.totalHaber > 0) {
+            activeAccounts.push(t);
+        }
+    }
+    
+    if (activeAccounts.length === 0) {
+        grid.innerHTML = `
+            <div style="text-align:center; padding:50px; font-weight:500; color:var(--color-text-muted);">
+                No hay movimientos registrados en el Diario.<br>Carga el 'Caso Práctico' o crea un Asiento para ver el Libro Mayor.
+            </div>
+        `;
+        return;
+    }
+    
+    activeAccounts.forEach(t => {
+        const box = document.createElement("div");
+        box.className = "cuenta-t-box";
+        
+        // Cabecera de la Cuenta T
+        const header = document.createElement("div");
+        header.className = "cuenta-t-header";
+        header.innerText = `${t.codigo} - ${t.nombre}`;
+        box.appendChild(header);
+        
+        // Cuerpo: columnas Debe y Haber
+        const body = document.createElement("div");
+        body.className = "cuenta-t-body";
+        
+        const debeCol = document.createElement("div");
+        debeCol.className = "cuenta-t-col cuenta-t-debe";
+        
+        const lineDiv = document.createElement("div");
+        lineDiv.className = "cuenta-t-line-div";
+        
+        const haberCol = document.createElement("div");
+        haberCol.className = "cuenta-t-col cuenta-t-haber";
+        
+        // Rellenar cargos (Debe)
+        t.cargos.forEach(c => {
+            const row = document.createElement("div");
+            row.className = "cuenta-t-mov debe-val-t";
+            row.innerHTML = `(${c.id}) $ ${c.importe.toLocaleString("es-MX", { minimumFractionDigits: 2 })}`;
+            debeCol.appendChild(row);
+        });
+        
+        // Rellenar abonos (Haber)
+        t.abonos.forEach(a => {
+            const row = document.createElement("div");
+            row.className = "cuenta-t-mov haber-val-t";
+            row.innerHTML = `$ ${a.importe.toLocaleString("es-MX", { minimumFractionDigits: 2 })} (${a.id})`;
+            haberCol.appendChild(row);
+        });
+        
+        // Rellenar vacíos para balancear filas visualmente
+        const maxRows = Math.max(t.cargos.length, t.abonos.length);
+        const cargoDiff = maxRows - t.cargos.length;
+        const abonoDiff = maxRows - t.abonos.length;
+        
+        for (let i = 0; i < cargoDiff; i++) {
+            const empty = document.createElement("div");
+            empty.className = "cuenta-t-mov";
+            empty.innerHTML = "&nbsp;";
+            debeCol.appendChild(empty);
+        }
+        for (let i = 0; i < abonoDiff; i++) {
+            const empty = document.createElement("div");
+            empty.className = "cuenta-t-mov";
+            empty.innerHTML = "&nbsp;";
+            haberCol.appendChild(empty);
+        }
+        
+        body.appendChild(debeCol);
+        body.appendChild(lineDiv);
+        body.appendChild(haberCol);
+        box.appendChild(body);
+        
+        // Línea horizontal de corte
+        const hLine = document.createElement("div");
+        hLine.className = "cuenta-t-h-line";
+        box.appendChild(hLine);
+        
+        // Sumas de movimientos
+        const sumas = document.createElement("div");
+        sumas.className = "cuenta-t-sumas";
+        sumas.innerHTML = `
+            <span>$ ${t.totalDebe.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</span>
+            <span>$ ${t.totalHaber.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</span>
+        `;
+        box.appendChild(sumas);
+        
+        // Línea final de saldo
+        const hLineSaldo = document.createElement("div");
+        hLineSaldo.className = "cuenta-t-h-line";
+        box.appendChild(hLineSaldo);
+        
+        // Saldo final
+        const saldoRow = document.createElement("div");
+        saldoRow.className = "cuenta-t-saldo-row";
+        if (t.saldoDeudor > 0) {
+            saldoRow.innerHTML = `<span style="color:var(--color-secondary); font-weight:800;">SD: $ ${t.saldoDeudor.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</span>`;
+        } else if (t.saldoAcreedor > 0) {
+            saldoRow.innerHTML = `<span style="width:100%; text-align:right; color:var(--color-gold-dark); font-weight:800;">SA: $ ${t.saldoAcreedor.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</span>`;
+        } else {
+            saldoRow.innerHTML = `<span style="width:100%; text-align:center; color:var(--color-text-muted); font-weight:700;">Saldo: $0.00</span>`;
+        }
+        box.appendChild(saldoRow);
+        
+        grid.appendChild(box);
+    });
 }
