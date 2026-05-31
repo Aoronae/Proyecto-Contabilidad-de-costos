@@ -2,7 +2,10 @@
 """
 views/main_window.py
 Ventana principal y contenedor del panel de navegación lateral.
-Implementa el diseño de dashboard premium y coordina las diferentes vistas modulares.
+Rediseñado por completo para replicar exactamente la estética premium de Vantti POS:
+- Barra superior blanca con logotipo y tarjeta de perfil de usuario (avatar circular).
+- Menú lateral en Azul Marino condensado con iconos verticales y pastillas de enfoque en Dorado.
+- Panel de contenido en Gris Claro con tarjetas blancas de bordes curvos y botones corporativos en Dorado.
 """
 
 import tkinter as tk
@@ -22,38 +25,98 @@ class MainWindow(tk.Tk):
         super().__init__()
         
         # Configuración de la ventana principal
-        self.title("ERP Contabilidad de Costos - Premium Edition")
-        self.geometry("1100x750")
-        self.configure(bg=config.COLOR_BG)
+        self.title("COST ERP - Sistema Contable y Administrativo de Costos")
+        self.geometry("1200x800")
+        self.configure(bg="#F1F5F9") # Gris claro frío (estilo tailwind slate-100)
         
-        # Cargar base de datos inicial
+        # Cargar base de datos
         self.db_data = database.load_db()
         
-        # Aplicar estilos globales de ttk
+        # Estilos generales
         self.setup_styles()
         
-        # Estructura del Layout General:
-        # Menú Lateral (Left) + Contenedor de Vistas (Right)
-        self.sidebar_frame = tk.Frame(self, bg=config.COLOR_PRIMARY, width=260)
+        # --- 1. BARRA SUPERIOR (TOP BAR) - Estilo Vantti POS ---
+        self.top_bar = tk.Frame(self, bg="#FFFFFF", height=70, bd=0, highlightbackground="#E2E8F0", highlightthickness=1)
+        self.top_bar.pack(side="top", fill="x")
+        self.top_bar.pack_propagate(False)
+        
+        # Logotipo / Título de la App (Izquierda de la barra superior)
+        self.logo_frame = tk.Frame(self.top_bar, bg="#FFFFFF", padx=20)
+        self.logo_frame.pack(side="left", fill="y")
+        
+        self.lbl_logo_title = tk.Label(self.logo_frame, text="Cost ERP", font=("Segoe UI", 18, "bold"), fg="#0F172A", bg="#FFFFFF")
+        self.lbl_logo_title.pack(anchor="w", pady=(10, 0))
+        
+        self.lbl_logo_subtitle = tk.Label(self.logo_frame, text="Sistema contable modular de costos de producción", font=("Segoe UI", 8), fg="#64748B", bg="#FFFFFF")
+        self.lbl_logo_subtitle.pack(anchor="w")
+        
+        # Tarjeta de Perfil de Usuario (Derecha de la barra superior)
+        self.profile_card = tk.Frame(self.top_bar, bg="#FFFFFF", padx=20)
+        self.profile_card.pack(side="right", fill="y")
+        
+        # Panel interno para simular tarjeta de perfil redondeada
+        self.user_frame = tk.Frame(self.profile_card, bg="#FFFFFF", bd=0, highlightbackground="#F1F5F9", highlightthickness=1, padx=12, pady=6)
+        self.user_frame.pack(side="right", pady=10)
+        
+        # Círculo del Avatar (Canvas para dibujar un círculo perfecto)
+        self.avatar_canvas = tk.Canvas(self.user_frame, bg="#FFFFFF", width=36, height=36, bd=0, highlightthickness=0)
+        self.avatar_canvas.pack(side="left", padx=(0, 8))
+        
+        # Dibujar círculo navy y letra "A"
+        self.avatar_canvas.create_oval(2, 2, 34, 34, fill="#002D54", outline="")
+        self.avatar_canvas.create_text(18, 18, text="A", fill="#FFFFFF", font=("Segoe UI", 12, "bold"))
+        
+        # Datos del usuario
+        self.user_details = tk.Frame(self.user_frame, bg="#FFFFFF")
+        self.user_details.pack(side="left")
+        
+        self.lbl_username = tk.Label(self.user_details, text="admin", font=("Segoe UI", 9, "bold"), fg="#0F172A", bg="#FFFFFF")
+        self.lbl_username.pack(anchor="w")
+        self.lbl_session = tk.Label(self.user_details, text="Sesión", font=("Segoe UI", 8), fg="#94A3B8", bg="#FFFFFF")
+        self.lbl_session.pack(anchor="w")
+        
+        # --- 2. CONTENEDOR PRINCIPAL INFERIOR ---
+        self.main_container = tk.Frame(self, bg="#F1F5F9")
+        self.main_container.pack(side="bottom", expand=True, fill="both")
+        
+        # --- 3. MENÚ LATERAL (SIDEBAR CONDENSADO) - Estilo Vantti POS ---
+        # Color Navy exacto (#002D54)
+        self.sidebar_frame = tk.Frame(self.main_container, bg="#002D54", width=110)
         self.sidebar_frame.pack(side="left", fill="y")
         self.sidebar_frame.pack_propagate(False)
         
-        self.content_frame = tk.Frame(self, bg=config.COLOR_BG)
-        self.content_frame.pack(side="right", expand=True, fill="both")
+        # Contenedor para alinear los botones en el centro de la barra lateral
+        self.menu_buttons_container = tk.Frame(self.sidebar_frame, bg="#002D54", pady=15)
+        self.menu_buttons_container.pack(fill="both", expand=True)
         
-        # Construir menú lateral
-        self.build_sidebar()
-        
-        # Diccionario para almacenar instancias de las vistas
         self.views = {}
         self.active_view = None
+        self.nav_items = {} # Contiene tuplas de (Frame del botón, Canvas del icono, Label de texto)
         
-        # Inicializar vistas
+        # Items del menú (key, emoji, título corto, vista a mostrar)
+        self.menu_items = [
+            ("init", "🏢", "Dashboard", self.show_view_init),
+            ("warehouse", "📦", "Almacén", self.show_view_warehouse),
+            ("ledger", "📖", "Diario", self.show_view_ledger),
+            ("automation", "⚡", "Ciclo", self.show_view_automation),
+            ("reports", "📊", "Reportes", self.show_view_reports)
+        ]
+        
+        self.build_sidebar_menu()
+        
+        # Botón de Cerrar/Reiniciar al fondo del menú lateral
+        self.build_sidebar_footer()
+        
+        # --- 4. PANEL DE CONTENIDO GENERAL ---
+        self.content_frame = tk.Frame(self.main_container, bg="#F1F5F9", padx=30, pady=25)
+        self.content_frame.pack(side="right", expand=True, fill="both")
+        
+        # Inicializar vistas modulares
         self.init_all_views()
         
-        # Mostrar vista inicial
+        # Mostrar pestaña por defecto
         self.show_view("init")
-        
+
     def setup_styles(self):
         """Configura los estilos de la librería ttk para que combinen con la paleta institucional."""
         style = ttk.Style()
@@ -61,181 +124,167 @@ class MainWindow(tk.Tk):
         
         # Configurar Treeviews (Tablas)
         style.configure("Treeview", 
-                        background=config.COLOR_CARD, 
-                        foreground=config.COLOR_TEXT_DARK, 
-                        fieldbackground=config.COLOR_CARD,
-                        bordercolor=config.COLOR_BORDER,
-                        rowheight=26,
-                        font=config.FONT_BODY)
+                        background="#FFFFFF", 
+                        foreground="#1E293B", 
+                        fieldbackground="#FFFFFF",
+                        bordercolor="#E2E8F0",
+                        rowheight=28,
+                        font=("Segoe UI", 9))
         
         style.configure("Treeview.Heading", 
-                        background=config.COLOR_PRIMARY, 
-                        foreground=config.COLOR_TEXT_LIGHT, 
-                        font=config.FONT_BODY_BOLD,
+                        background="#0F172A", 
+                        foreground="#FFFFFF", 
+                        font=("Segoe UI", 9, "bold"),
                         borderwidth=1)
         
         style.map("Treeview.Heading",
-                  background=[('active', config.COLOR_SECONDARY)],
-                  foreground=[('active', config.COLOR_TEXT_LIGHT)])
+                  background=[('active', "#1E3A8A")],
+                  foreground=[('active', "#FFFFFF")])
         
         # Botones ttk
         style.configure("TButton", 
-                        background=config.COLOR_SECONDARY, 
-                        foreground=config.COLOR_TEXT_LIGHT, 
-                        font=config.FONT_BODY_BOLD,
-                        borderwidth=0,
-                        focuscolor=config.COLOR_ACCENT)
+                        background="#1E3A8A", 
+                        foreground="#FFFFFF", 
+                        font=("Segoe UI", 9, "bold"),
+                        borderwidth=0)
         style.map("TButton",
-                  background=[('active', config.COLOR_HOVER)],
-                  foreground=[('active', config.COLOR_TEXT_LIGHT)])
+                  background=[('active', "#2563EB")])
         
-        # Etiquetas / Frames ttk
-        style.configure("TLabel", background=config.COLOR_BG, font=config.FONT_BODY, foreground=config.COLOR_TEXT_DARK)
-        style.configure("TFrame", background=config.COLOR_BG)
-        style.configure("Card.TFrame", background=config.COLOR_CARD, relief="flat", borderwidth=1)
+        style.configure("TLabel", background="#F1F5F9", font=("Segoe UI", 9), foreground="#1E293B")
+        style.configure("TFrame", background="#F1F5F9")
         
-    def build_sidebar(self):
-        """Construye el menú lateral con diseño corporativo premium."""
-        # Cabecera del Sistema (Logo / Título)
-        logo_frame = tk.Frame(self.sidebar_frame, bg=config.COLOR_PRIMARY, pady=25)
-        logo_frame.pack(fill="x")
-        
-        title_label = tk.Label(logo_frame, text="COST ERP", font=("Segoe UI", 20, "bold"), fg=config.COLOR_TEXT_LIGHT, bg=config.COLOR_PRIMARY)
-        title_label.pack()
-        
-        subtitle_label = tk.Label(logo_frame, text="CONTABILIDAD DE COSTOS", font=("Segoe UI", 8, "bold"), fg=config.COLOR_GOLD, bg=config.COLOR_PRIMARY)
-        subtitle_label.pack()
-        
-        # Línea divisoria decorativa
-        divider = tk.Frame(self.sidebar_frame, bg=config.COLOR_GOLD, height=3)
-        divider.pack(fill="x", padx=15, pady=5)
-        
-        # Frame contenedor de botones de navegación
-        menu_frame = tk.Frame(self.sidebar_frame, bg=config.COLOR_PRIMARY, pady=20)
-        menu_frame.pack(fill="both", expand=True)
-        
-        self.nav_buttons = {}
-        
-        # Botones de navegación con iconos unicode
-        menu_items = [
-            ("init", "🏢  Inicialización", self.show_view_init),
-            ("warehouse", "📦  Tarjeta de Almacén", self.show_view_warehouse),
-            ("ledger", "📖  Diario y Cuentas T", self.show_view_ledger),
-            ("automation", "⚡  Autocompletar Ciclo", self.show_view_automation),
-            ("reports", "📊  Reportes de Costos", self.show_view_reports)
-        ]
-        
-        for key, text, command in menu_items:
-            btn = tk.Button(menu_frame, 
-                            text=text, 
-                            font=config.FONT_BODY_BOLD, 
-                            fg=config.COLOR_TEXT_LIGHT, 
-                            bg=config.COLOR_PRIMARY, 
-                            activebackground=config.COLOR_SECONDARY, 
-                            activeforeground=config.COLOR_TEXT_LIGHT,
-                            bd=0, 
-                            padx=20, 
-                            pady=14, 
-                            anchor="w",
-                            command=command)
-            btn.pack(fill="x", padx=10, pady=4)
+    def build_sidebar_menu(self):
+        """Crea los botones verticales estilizados idénticos a los de Vantti POS."""
+        for key, icon, text, command in self.menu_items:
+            # Frame contenedor del botón completo (para manejar espaciado e interactividad)
+            btn_frame = tk.Frame(self.menu_buttons_container, bg="#002D54", height=90, cursor="hand2")
+            btn_frame.pack(fill="x", pady=6)
+            btn_frame.pack_propagate(False)
             
-            # Efecto Hover
-            btn.bind("<Enter>", lambda e, b=btn: self.on_hover(b))
-            btn.bind("<Leave>", lambda e, b=btn, k=key: self.on_leave(b, k))
+            # Canvas interno para dibujar la pastilla/óvalo de selección e icono
+            icon_canvas = tk.Canvas(btn_frame, bg="#002D54", width=55, height=36, bd=0, highlightthickness=0)
+            icon_canvas.pack(anchor="center", pady=(10, 2))
             
-            self.nav_buttons[key] = btn
+            # Dibujar pastilla de selección (por defecto invisible / color de fondo)
+            oval_id = icon_canvas.create_oval(2, 2, 53, 34, fill="#002D54", outline="")
             
-        # Footer con estado e información del sistema
-        footer_frame = tk.Frame(self.sidebar_frame, bg=config.COLOR_PRIMARY, pady=15)
-        footer_frame.pack(side="bottom", fill="x")
-        
-        # Botón de reinicio completo
-        reset_btn = tk.Button(footer_frame, 
-                              text="🔄  Reiniciar Todo", 
-                              font=("Segoe UI", 9, "bold"), 
-                              fg="#F87171", 
-                              bg=config.COLOR_PRIMARY, 
-                              activebackground=config.COLOR_PRIMARY, 
-                              activeforeground="#EF4444",
-                              bd=0,
-                              command=self.reset_system)
-        reset_btn.pack(pady=5)
-        
-        self.status_label = tk.Label(footer_frame, 
-                                     text="Estado: Sin inicializar", 
-                                     font=("Segoe UI", 8, "italic"), 
-                                     fg=config.COLOR_TEXT_MUTED, 
-                                     bg=config.COLOR_PRIMARY)
-        self.status_label.pack()
-        self.update_status_display()
-        
-    def on_hover(self, btn):
-        """Efecto al pasar el mouse por encima del botón."""
-        if btn["bg"] != config.COLOR_SECONDARY:
-            btn.configure(bg="#1E293B")
+            # Añadir icono (Emoji / Unicode) centrado sobre la pastilla
+            icon_canvas.create_text(27, 18, text=icon, fill="#FFFFFF", font=("Segoe UI", 16))
             
-    def on_leave(self, btn, key):
-        """Efecto al retirar el mouse del botón."""
+            # Etiqueta de texto debajo del icono
+            text_label = tk.Label(btn_frame, text=text, font=("Segoe UI", 8, "bold"), fg="#FFFFFF", bg="#002D54")
+            text_label.pack(anchor="center")
+            
+            # Guardar referencias para poder modificar estilos al hacer click / hover
+            self.nav_items[key] = {
+                "frame": btn_frame,
+                "canvas": icon_canvas,
+                "oval": oval_id,
+                "label": text_label,
+                "command": command
+            }
+            
+            # Enlazar eventos de click e interactividad para todos los sub-widgets
+            for widget in (btn_frame, icon_canvas, text_label):
+                widget.bind("<Button-1>", lambda e, k=key: self.on_menu_click(k))
+                widget.bind("<Enter>", lambda e, k=key: self.on_menu_enter(k))
+                widget.bind("<Leave>", lambda e, k=key: self.on_menu_leave(k))
+
+    def build_sidebar_footer(self):
+        """Crea el botón de cierre / reset al fondo del menú lateral."""
+        footer_frame = tk.Frame(self.sidebar_frame, bg="#002D54", height=70, cursor="hand2")
+        footer_frame.pack(side="bottom", fill="x", pady=10)
+        footer_frame.pack_propagate(False)
+        
+        icon_lbl = tk.Label(footer_frame, text="🚪", font=("Segoe UI", 16), fg="#EF4444", bg="#002D54")
+        icon_lbl.pack(anchor="center", pady=(5, 2))
+        
+        text_lbl = tk.Label(footer_frame, text="Cerrar", font=("Segoe UI", 8, "bold"), fg="#F87171", bg="#002D54")
+        text_lbl.pack(anchor="center")
+        
+        # Enlazar eventos del botón de cierre
+        for widget in (footer_frame, icon_lbl, text_lbl):
+            widget.bind("<Button-1>", lambda e: self.reset_system())
+            widget.bind("<Enter>", lambda e: [icon_lbl.configure(fg="#F87171"), text_lbl.configure(fg="#EF4444")])
+            widget.bind("<Leave>", lambda e: [icon_lbl.configure(fg="#EF4444"), text_lbl.configure(fg="#F87171")])
+
+    def on_menu_enter(self, key):
+        """Efecto hover al pasar el cursor sobre un botón del menú lateral."""
         if self.active_view != key:
-            btn.configure(bg=config.COLOR_PRIMARY)
-        else:
-            btn.configure(bg=config.COLOR_SECONDARY)
-            
-    def init_all_views(self):
-        """Inicializa las sub-vistas modulares y las monta en el panel de contenido."""
-        self.views["init"] = InitView(self.content_frame, self)
-        self.views["warehouse"] = WarehouseView(self.content_frame, self)
-        self.views["ledger"] = LedgerView(self.content_frame, self)
-        self.views["automation"] = AutomationView(self.content_frame, self)
-        self.views["reports"] = ReportsView(self.content_frame, self)
-        
+            # Sutil cambio a un color azul más claro
+            self.nav_items[key]["frame"].configure(bg="#0B3C68")
+            self.nav_items[key]["canvas"].configure(bg="#0B3C68")
+            self.nav_items[key]["label"].configure(bg="#0B3C68")
+
+    def on_menu_leave(self, key):
+        """Efecto leave al retirar el cursor del botón del menú lateral."""
+        if self.active_view != key:
+            # Regresar al fondo original
+            self.nav_items[key]["frame"].configure(bg="#002D54")
+            self.nav_items[key]["canvas"].configure(bg="#002D54")
+            self.nav_items[key]["label"].configure(bg="#002D54")
+
+    def on_menu_click(self, key):
+        """Dispara el comando correspondiente al botón clickeado."""
+        self.nav_items[key]["command"]()
+
     def show_view(self, key):
-        """Oculta la vista anterior y muestra la nueva pestaña seleccionada."""
-        # Desactivar botón anterior
-        if self.active_view and self.active_view in self.nav_buttons:
-            self.nav_buttons[self.active_view].configure(bg=config.COLOR_PRIMARY, fg=config.COLOR_TEXT_LIGHT)
+        """Cambia dinámicamente la pestaña seleccionada aplicando el estilo visual de Vantti POS."""
+        # 1. Desactivar estilo visual del botón anterior
+        if self.active_view and self.active_view in self.nav_items:
+            item = self.nav_items[self.active_view]
+            item["frame"].configure(bg="#002D54")
+            item["canvas"].configure(bg="#002D54")
+            item["canvas"].itemconfig(item["oval"], fill="#002D54") # Ocultar pastilla
+            item["label"].configure(bg="#002D54", fg="#FFFFFF")
             
-        # Ocultar todas las vistas
+        # Ocultar todas las sub-vistas
         for v in self.views.values():
             v.pack_forget()
             
-        # Activar el nuevo botón
+        # 2. Activar estilo visual del nuevo botón (Píldora dorada de selección)
         self.active_view = key
-        self.nav_buttons[key].configure(bg=config.COLOR_SECONDARY, fg=config.COLOR_GOLD)
+        item = self.nav_items[key]
+        item["frame"].configure(bg="#002D54")
+        item["canvas"].configure(bg="#002D54")
+        item["canvas"].itemconfig(item["oval"], fill=config.COLOR_GOLD) # Mostrar pastilla dorada
+        item["label"].configure(bg="#002D54", fg=config.COLOR_GOLD) # Texto en dorado
         
         # Mostrar nueva vista
         self.views[key].pack(fill="both", expand=True)
         
-        # Actualizar datos de la vista antes de pintar
+        # Forzar recarga de información de la vista activa
         self.views[key].update_data()
         self.update_status_display()
 
-    # Helpers de navegación
+    # Callbacks de navegación
     def show_view_init(self): self.show_view("init")
     def show_view_warehouse(self): self.show_view("warehouse")
     def show_view_ledger(self): self.show_view("ledger")
     def show_view_automation(self): self.show_view("automation")
     def show_view_reports(self): self.show_view("reports")
     
+    def init_all_views(self):
+        """Instancia todas las vistas contables sobre el contenedor de contenido principal."""
+        self.views["init"] = InitView(self.content_frame, self)
+        self.views["warehouse"] = WarehouseView(self.content_frame, self)
+        self.views["ledger"] = LedgerView(self.content_frame, self)
+        self.views["automation"] = AutomationView(self.content_frame, self)
+        self.views["reports"] = ReportsView(self.content_frame, self)
+        
     def update_status_display(self):
-        """Actualiza el label indicador de la base de datos."""
+        """Mantiene los datos cargados."""
         self.db_data = database.load_db()
-        if self.db_data.get("practice_project_loaded", False):
-            self.status_label.configure(text="✅  Caso de Práctica Activo", fg=config.COLOR_GOLD)
-        else:
-            self.status_label.configure(text="⚠️  Sin inicializar (Vacío)", fg="#94A3B8")
-            
+        
     def refresh_all_views(self):
-        """Fuerza a todas las vistas del sistema a refrescar sus datos."""
+        """Recarga la base de datos de todos los módulos y redibuja."""
         self.db_data = database.load_db()
         for v in self.views.values():
             v.update_data()
-        self.update_status_display()
-        
+            
     def reset_system(self):
-        """Limpia la base de datos JSON regresando al estado virgen en blanco."""
-        if messagebox.askyesno("Confirmar Reinicio", "¿Estás seguro de que deseas limpiar todo el sistema y borrar todos los asientos y registros del almacén?"):
+        """Limpia el estado financiero completo."""
+        if messagebox.askyesno("Confirmar Cierre y Reinicio", "¿Estás seguro de que deseas restablecer por completo todo el sistema y borrar la base de datos local?"):
             database.clear_db()
             self.refresh_all_views()
             self.show_view("init")
