@@ -86,7 +86,7 @@ class LedgerView(tk.Frame):
         
         # Botón para agregar movimiento al borrador (Estilo Vantti POS: Dorado)
         add_btn = tk.Button(input_subrow, 
-                            text="Agregar", 
+                            text="✚  Agregar", 
                             font=config.FONT_BODY_BOLD, 
                             fg=config.COLOR_PRIMARY, 
                             bg=config.COLOR_GOLD, 
@@ -134,7 +134,7 @@ class LedgerView(tk.Frame):
         btn_action_frame.pack(fill="x", pady=(5, 0))
         
         del_btn = tk.Button(btn_action_frame, 
-                            text="Eliminar Fila", 
+                            text="✖  Eliminar Fila", 
                             font=("Segoe UI", 9), 
                             fg="#EF4444", 
                             bg=config.COLOR_CARD, 
@@ -145,7 +145,7 @@ class LedgerView(tk.Frame):
         del_btn.pack(side="left")
         
         save_entry_btn = tk.Button(btn_action_frame, 
-                                   text="Guardar Asiento Diario", 
+                                   text="✔  Guardar Asiento Diario", 
                                    font=config.FONT_BODY_BOLD, 
                                    fg=config.COLOR_PRIMARY, 
                                    bg=config.COLOR_GOLD, 

@@ -86,7 +86,7 @@ class WarehouseView(tk.Frame):
         
         # Botón de Registro (Estilo Vantti POS: Dorado)
         reg_btn = tk.Button(form_frame, 
-                            text="Registrar en Almacén", 
+                            text="✚  Registrar en Almacén", 
                             font=config.FONT_BODY_BOLD, 
                             fg=config.COLOR_PRIMARY, 
                             bg=config.COLOR_GOLD, 
@@ -133,9 +133,9 @@ class WarehouseView(tk.Frame):
             widget.destroy()
             
         kpis = [
-            ("EXISTENCIA ACTUAL", "0 unidades", "existencia", config.COLOR_PRIMARY),
-            ("COSTO PROMEDIO CPP", "$ 0.00", "cpp", config.COLOR_GOLD_DARK),
-            ("VALOR TOTAL EN ALMACÉN", "$ 0.00", "valor", config.COLOR_SECONDARY)
+            ("📥  EXISTENCIA ACTUAL", "0 unidades", "existencia", config.COLOR_PRIMARY),
+            ("⛁  COSTO PROMEDIO CPP", "$ 0.00", "cpp", config.COLOR_GOLD_DARK),
+            ("⛃  VALOR TOTAL EN ALMACÉN", "$ 0.00", "valor", config.COLOR_SECONDARY)
         ]
         
         self.kpi_labels = {}

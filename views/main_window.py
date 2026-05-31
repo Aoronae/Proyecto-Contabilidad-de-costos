@@ -70,11 +70,11 @@ class MainWindow(tk.Tk):
         
         # Items del menú (key, glifo formal, título corto, vista a mostrar)
         self.menu_items = [
-            ("init", "■", "Dashboard", self.show_view_init),
-            ("warehouse", "◆", "Almacén", self.show_view_warehouse),
-            ("ledger", "▲", "Diario", self.show_view_ledger),
-            ("automation", "❖", "Ciclo", self.show_view_automation),
-            ("reports", "●", "Reportes", self.show_view_reports)
+            ("init", "⛁", "Dashboard", self.show_view_init),
+            ("warehouse", "📥", "Almacén", self.show_view_warehouse),
+            ("ledger", "⚖", "Diario", self.show_view_ledger),
+            ("automation", "⚙", "Ciclo", self.show_view_automation),
+            ("reports", "📋", "Reportes", self.show_view_reports)
         ]
         
         self.build_sidebar_menu()

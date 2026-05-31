@@ -83,7 +83,7 @@ class AutomationView(tk.Frame):
         
         # Botón de Automatización (Estilo Vantti POS: Dorado con texto oscuro)
         self.auto_btn = tk.Button(config_card, 
-                                  text="Autocompletar Ciclo de Costos", 
+                                  text="⚙  Autocompletar Ciclo de Costos", 
                                   font=config.FONT_BODY_BOLD, 
                                   fg=config.COLOR_PRIMARY, 
                                   bg=config.COLOR_GOLD, 

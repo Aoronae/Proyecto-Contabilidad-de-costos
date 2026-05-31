@@ -172,29 +172,42 @@ h1, h2, h3, h4, .logo-title {
 }
 
 .icon-pill {
-    width: 50px;
+    width: 54px;
     height: 32px;
     border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
-    color: #FFFFFF;
-    transition: all 0.2s ease;
+    color: #94A3B8; /* Slate 400 */
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: transparent;
 }
 
+.nav-svg {
+    transition: all 0.25s ease;
+}
+
 .nav-text {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    color: #FFFFFF;
+    color: #94A3B8; /* Slate 400 */
     margin-top: 6px;
-    transition: color 0.2s ease;
+    letter-spacing: 0.02em;
+    transition: color 0.25s ease;
 }
 
 /* Hover e Inactivo */
 .nav-item:hover {
     background-color: var(--color-secondary-hover);
+}
+
+.nav-item:hover .icon-pill {
+    color: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+.nav-item:hover .nav-text {
+    color: #FFFFFF;
 }
 
 /* Active State (Estilo pastilla dorada Vantti POS) */
@@ -205,6 +218,7 @@ h1, h2, h3, h4, .logo-title {
 .nav-item.active .icon-pill {
     background-color: var(--color-gold);
     color: var(--color-primary);
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
 }
 
 .nav-item.active .nav-text {
@@ -218,24 +232,28 @@ h1, h2, h3, h4, .logo-title {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    padding: 10px 0;
+    padding: 15px 0;
+    transition: all 0.2s ease;
 }
 
 .reset-icon {
-    font-size: 1.3rem;
     color: var(--color-gold);
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .footer-text {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    color: #CBD5E1;
-    margin-top: 4px;
+    color: #94A3B8; /* Slate 400 */
+    margin-top: 6px;
+    transition: color 0.25s ease;
 }
 
 .sidebar-footer:hover .reset-icon {
-    transform: rotate(180deg);
+    transform: rotate(360deg);
     color: #FFFFFF;
 }
 

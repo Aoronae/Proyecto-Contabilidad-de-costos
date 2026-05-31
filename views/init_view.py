@@ -98,28 +98,28 @@ class InitView(tk.Frame):
         btn_bar.pack(fill="x", pady=(0, 8))
         
         add_cta_btn = tk.Button(btn_bar,
-                                text="Agregar Cuenta Contable",
+                                text="✚  Agregar Cuenta Contable",
                                 font=config.FONT_BODY_BOLD,
                                 fg=config.COLOR_PRIMARY,
                                 bg=config.COLOR_GOLD,
                                 activebackground="#F59E0B",
                                 activeforeground=config.COLOR_PRIMARY,
                                 bd=0,
-                                padx=12,
-                                pady=6,
+                                padx=15,
+                                pady=7,
                                 command=self.open_add_account_dialog)
         add_cta_btn.pack(side="left", padx=(0, 10))
         
         adjust_saldo_btn = tk.Button(btn_bar,
-                                     text="Ajustar Saldo Inicial",
+                                     text="✎  Ajustar Saldo Inicial",
                                      font=config.FONT_BODY_BOLD,
                                      fg=config.COLOR_PRIMARY,
                                      bg=config.COLOR_GOLD,
                                      activebackground="#F59E0B",
                                      activeforeground=config.COLOR_PRIMARY,
                                      bd=0,
-                                     padx=12,
-                                     pady=6,
+                                     padx=15,
+                                     pady=7,
                                      command=self.open_adjust_saldo_dialog)
         adjust_saldo_btn.pack(side="left")
         
