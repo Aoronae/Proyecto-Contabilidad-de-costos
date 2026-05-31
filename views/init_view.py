@@ -32,7 +32,7 @@ class InitView(tk.Frame):
         header_label.pack(anchor="w")
         
         subheader_label = tk.Label(header_frame, 
-                                   text="Configura los saldos iniciales del ERP o carga un caso práctico de simulación", 
+                                   text="Configure los saldos iniciales de las cuentas o cargue el ejercicio práctico contable", 
                                    font=config.FONT_BODY, 
                                    fg=config.COLOR_GOLD, 
                                    bg=config.COLOR_PRIMARY)
@@ -56,8 +56,7 @@ class InitView(tk.Frame):
         
         # Nota explicativa simplificada y amigable
         explanation_text = (
-            "¡Bienvenido a Cost ERP! Para comenzar a explorar las simulaciones de inmediato,\n"
-            "presiona el botón de la derecha para cargar el caso práctico escolar preconfigurado."
+            "Cargue los saldos de apertura y cuentas contables predeterminadas del caso práctico."
         )
         explanation_label = tk.Label(practice_card, 
                                      text=explanation_text, 
@@ -154,9 +153,9 @@ class InitView(tk.Frame):
             data = database.load_db()
             data = models.cargar_proyecto_practica(data)
             self.main_window.refresh_all_views()
-            messagebox.showinfo("Éxito", "¡Caso práctico cargado correctamente!\nLos saldos y la tarjeta de almacén han sido inicializados.")
+            messagebox.showinfo("Éxito", "El ejercicio práctico ha sido cargado correctamente.\nSe inicializaron los saldos de apertura y cuentas contables.")
         except Exception as e:
-            messagebox.showerror("Error", f"Ocurrió un error al inicializar el proyecto: {e}")
+            messagebox.showerror("Error", f"Ocurrió un error al inicializar el ejercicio: {e}")
             
     def open_add_account_dialog(self):
         """Abre un diálogo flotante para ingresar una nueva cuenta contable."""

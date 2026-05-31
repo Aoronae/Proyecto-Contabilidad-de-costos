@@ -33,7 +33,7 @@ class AutomationView(tk.Frame):
         header_label.pack(anchor="w")
         
         subheader_label = tk.Label(header_frame, 
-                                   text="Simulador Inteligente: Ejecuta traspasos de producción y determina costos unitarios de forma automática", 
+                                   text="Procesamiento automático de traspasos de producción y determinación de costos unitarios", 
                                    font=config.FONT_BODY, 
                                    fg=config.COLOR_GOLD, 
                                    bg=config.COLOR_PRIMARY)
@@ -153,22 +153,16 @@ class AutomationView(tk.Frame):
             # Ejecutar ciclo
             models.autocompletar_ciclo_costos(data, qty, price, mod, gif)
             
-            messagebox.showinfo("Ciclo Completado", 
-                                f"¡Ciclo de Costos finalizado con éxito para {qty} unidades!\n\n"
-                                "Asientos automáticos registrados en el Diario:\n"
-                                " 1. Consumo de MPD (Almacén MP ➔ Producción Proceso)\n"
-                                " 2. Aplicación de Mano de Obra (MOD)\n"
-                                " 3. Aplicación de Gastos Indirectos (GIF)\n"
-                                " 4. Traspaso a Producto Terminado (PP ➔ Almacén PT)\n"
-                                " 5. Venta del periodo e ingreso a Bancos\n"
-                                " 6. Costo de lo Vendido registrado")
+            messagebox.showinfo("Cierre Procesado", 
+                                f"El cierre de costos ha sido finalizado para {qty} unidades.\n\n"
+                                "Se registraron los asientos de diario automáticos correspondientes a los consumos y traspasos de producción.")
             
             self.main_window.refresh_all_views()
             # Navegar a la pestaña de reportes de inmediato para ver los resultados!
             self.main_window.show_view("reports")
             
         except Exception as e:
-            messagebox.showerror("Error de Ejecución", str(e))
+            messagebox.showerror("Error de Cierre", str(e))
             
     def build_flow_diagram(self):
         """Construye el diagrama visual usando cajones y flechas en un layout responsivo."""

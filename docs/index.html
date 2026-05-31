@@ -15,17 +15,14 @@
     <header class="top-bar">
         <div class="logo-area">
             <h1 class="logo-title">Cost ERP</h1>
-            <p class="logo-subtitle">Simulador contable modular de costos de producción</p>
+            <p class="logo-subtitle">Sistema Contable de Costos de Producción</p>
         </div>
         <div class="header-actions">
-            <a href="https://github.com/Aoronae/Proyecto-Contabilidad-de-costos" target="_blank" class="github-link">
-                Ver Código en GitHub
-            </a>
             <div class="profile-badge">
-                <div class="avatar">A</div>
+                <div class="avatar">C</div>
                 <div class="profile-info">
-                    <span class="username">invitado</span>
-                    <span class="session-label">Demo Web</span>
+                    <span class="username">Contador</span>
+                    <span class="session-label">Sesión Activa</span>
                 </div>
             </div>
         </div>
@@ -36,7 +33,7 @@
         <!-- 2. MENÚ LATERAL (SIDEBAR) -->
         <nav class="sidebar">
             <div class="menu-container">
-                <div class="nav-item active" data-tab="init" title="Dashboard">
+                <div class="nav-item active" data-tab="init" title="Catálogo">
                     <div class="icon-pill">
                         <svg class="nav-svg" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
@@ -44,7 +41,7 @@
                             <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
                         </svg>
                     </div>
-                    <span class="nav-text">Dashboard</span>
+                    <span class="nav-text">Catálogo</span>
                 </div>
                 <div class="nav-item" data-tab="warehouse" title="Almacén">
                     <div class="icon-pill">
@@ -63,14 +60,14 @@
                     </div>
                     <span class="nav-text">Diario</span>
                 </div>
-                <div class="nav-item" data-tab="simulation" title="Ciclo de Costos">
+                <div class="nav-item" data-tab="simulation" title="Procesar Costos">
                     <div class="icon-pill">
                         <svg class="nav-svg" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="3"></circle>
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                         </svg>
                     </div>
-                    <span class="nav-text">Simular</span>
+                    <span class="nav-text">Proceso</span>
                 </div>
                 <div class="nav-item" data-tab="reports" title="Reportes">
                     <div class="icon-pill">
@@ -103,22 +100,22 @@
             <!-- TAB 1: INITIALIZATION / DASHBOARD -->
             <section class="tab-content active" id="tab-init">
                 <div class="view-header">
-                    <h2 class="view-title">Dashboard & Catálogo</h2>
-                    <p class="view-desc">Inicializa el sistema con el caso práctico escolar preconfigurado.</p>
+                    <h2 class="view-title">Catálogo de Cuentas</h2>
+                    <p class="view-desc">Saldos de cuentas contables y balance de apertura.</p>
                 </div>
 
                 <!-- Tarjeta Carga de Proyecto -->
                 <div class="card card-welcome">
                     <div class="welcome-text">
-                        <h3>¡Bienvenido a Cost ERP Web!</h3>
-                        <p>Esta es la réplica interactiva en línea de tu sistema contable modular. Presiona el botón de la derecha para cargar de inmediato los saldos del caso práctico académico (Bancos, Almacenes y Maquinaria) para ver la simulación en acción.</p>
+                        <h3>Cargar Ejercicio Académico</h3>
+                        <p>Inicializa las cuentas contables con los saldos de apertura predeterminados del caso práctico contable.</p>
                     </div>
                     <button class="btn btn-gold" id="btn-load-practice">Cargar Caso Práctico</button>
                 </div>
 
                 <!-- Tabla del Catálogo de Cuentas -->
                 <div class="card card-table-container">
-                    <h3 class="card-title">Catálogo de Cuentas y Saldos en Tiempo Real</h3>
+                    <h3 class="card-title">Saldos de Mayor en Tiempo Real</h3>
                     
                     <div class="catalog-btn-bar" style="margin-bottom: 15px; display: flex; gap: 10px;">
                         <button class="btn btn-gold" id="btn-add-account" style="padding: 8px 16px; font-size: 0.85rem;">✚  Agregar Cuenta Contable</button>
@@ -147,8 +144,8 @@
             <!-- TAB 2: WAREHOUSE / ALMACÉN -->
             <section class="tab-content" id="tab-warehouse">
                 <div class="view-header">
-                    <h2 class="view-title">Tarjeta de Almacén</h2>
-                    <p class="view-desc">Control de inventario de materia prima utilizando el Método de Costo Promedio Ponderado (CPP).</p>
+                    <h2 class="view-title">Auxiliar de Almacén</h2>
+                    <p class="view-desc">Valuación de inventario de materia prima por costo promedio ponderado.</p>
                 </div>
 
                 <!-- Panel KPIs -->
@@ -228,8 +225,8 @@
             <!-- TAB 2.5: JOURNAL / DIARIO Y CUENTAS T -->
             <section class="tab-content" id="tab-ledger">
                 <div class="view-header">
-                    <h2 class="view-title">Libro Diario y Esquemas de Mayor</h2>
-                    <p class="view-desc">Registra asientos contables con validación de partida doble y visualiza su mayorización.</p>
+                    <h2 class="view-title">Libro Diario y Cuentas T</h2>
+                    <p class="view-desc">Registro de asientos de diario y mayorización contable.</p>
                 </div>
 
                 <div class="ledger-split">
@@ -339,19 +336,19 @@
             <!-- TAB 3: SIMULATION / AUTOMATIZACIÓN -->
             <section class="tab-content" id="tab-simulation">
                 <div class="view-header">
-                    <h2 class="view-title">Automatización de Costos</h2>
-                    <p class="view-desc">Simulador Inteligente: realiza traspasos de producción automáticos y calcula costos unitarios.</p>
+                    <h2 class="view-title">Cierre y Traspaso de Costos</h2>
+                    <p class="view-desc">Procesamiento automático de traspasos de producción y determinación de costos unitarios.</p>
                 </div>
 
                 <!-- Configuración Simulación -->
                 <div class="card card-welcome">
                     <div class="welcome-text">
-                        <h3>Simulación del Ciclo Completo</h3>
-                        <p>Ajusta las variables de tu lote de producción. Al presionar el botón de abajo, JavaScript procesará el traspaso de MPD al costo promedio ponderado actual, aplicará MOD y GIF, y transferirá el costo acumulado a Producto Terminado.</p>
+                        <h3>Cierre y Traspaso de Costos de Producción</h3>
+                        <p>Ajuste los parámetros del lote de producción para efectuar los traspasos automáticos hacia los almacenes de Producción en Proceso y de Producto Terminado.</p>
                         
                         <div class="sim-inputs-grid">
                             <div class="form-group">
-                                <label>Producción Objetivo (un.)</label>
+                                <label>Producción (Unidades)</label>
                                 <input type="number" id="sim-qty" value="500" min="1" step="1">
                             </div>
                             <div class="form-group">
@@ -359,21 +356,21 @@
                                 <input type="number" id="sim-price" value="350" min="1">
                             </div>
                             <div class="form-group">
-                                <label>Costo MOD Unitario ($)</label>
+                                <label>Costo Unitario MOD ($)</label>
                                 <input type="number" id="sim-mod" value="40" min="1">
                             </div>
                             <div class="form-group">
-                                <label>Costo GIF Unitario ($)</label>
+                                <label>Costo Unitario GIF ($)</label>
                                 <input type="number" id="sim-gif" value="20" min="1">
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-gold btn-sim-large" id="btn-run-sim">Autocompletar Ciclo</button>
+                    <button class="btn btn-gold btn-sim-large" id="btn-run-sim">Procesar Cierre y Traspasos</button>
                 </div>
 
                 <!-- Diagrama de Flujo Visual -->
                 <div class="card flow-card-container">
-                    <h3 class="card-title">Flujo Contable de Costos de Producción</h3>
+                    <h3 class="card-title">Flujo Contable de Producción</h3>
                     <div class="flow-diagram">
                         <div class="flow-box">
                             <span class="flow-tag bg-blue">1. COMPRAS</span>
@@ -384,19 +381,19 @@
                         <div class="flow-box">
                             <span class="flow-tag bg-gold">2. PROCESO</span>
                             <h4>Producción en Proceso</h4>
-                            <p>Acumula MPD + MOD + GIF</p>
+                            <p>Acumulación MPD + MOD + GIF</p>
                         </div>
                         <div class="flow-arrow">➔</div>
                         <div class="flow-box">
                             <span class="flow-tag bg-blue">3. TERMINADO</span>
                             <h4>Almacén PT (1153)</h4>
-                            <p>Valuado a Costo Unitario real</p>
+                            <p>Valuado a costo unitario de producción</p>
                         </div>
                         <div class="flow-arrow">➔</div>
                         <div class="flow-box">
                             <span class="flow-tag bg-gold">4. VENTA</span>
                             <h4>Costo de Ventas (5101)</h4>
-                            <p>Costo del lote de ventas facturado</p>
+                            <p>Costo de lo vendido registrado</p>
                         </div>
                     </div>
                 </div>
@@ -405,8 +402,8 @@
             <!-- TAB 4: REPORTS / REPORTES -->
             <section class="tab-content" id="tab-reports">
                 <div class="view-header">
-                    <h2 class="view-title">Reportes & Punto de Equilibrio</h2>
-                    <p class="view-desc">Genera el Estado de Costos industrial y evalúa márgenes y punto crítico de equilibrio.</p>
+                    <h2 class="view-title">Reportes Financieros y Costo Unitario</h2>
+                    <p class="view-desc">Estado de costos de producción y de lo vendido, y análisis de margen de contribución.</p>
                 </div>
 
                 <div class="reports-split">

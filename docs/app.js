@@ -294,7 +294,7 @@ function loadPracticeCase() {
     registrarAsiento("2026-05-05", "Compra MP Lote 2 (500 un. @ $110.00)", movsCompra);
     
     updateUI();
-    alert("¡Caso práctico académico cargado con éxito!\nSe inicializaron los saldos, el almacén de MP y el catálogo contable.");
+    alert("El ejercicio práctico ha sido cargado con éxito.\nSe inicializaron los saldos de apertura y cuentas contables.");
 }
 
 // Registrar Movimiento Manual en Tarjeta de Almacén
@@ -395,13 +395,13 @@ function saveWarehouseTransaction() {
     document.getElementById("wh-qty").value = "";
     
     updateUI();
-    alert("Movimiento contable de inventario registrado con éxito.");
+    alert("Movimiento de almacén registrado con éxito.");
 }
 
 // Simulador Completo del Ciclo de Costos Automático
 function runCostCycleSimulation() {
     if (state.almacen.length === 0) {
-        alert("El almacén está vacío. Por favor carga el 'Caso Práctico' primero.");
+        alert("El auxiliar de almacén está vacío. Cargue el ejercicio primero.");
         return;
     }
     
@@ -512,13 +512,13 @@ function runCostCycleSimulation() {
         
         updateUI();
         
-        alert(`¡Ciclo de Costos automático ejecutado con éxito para ${qty} unidades!\n\nSe registraron los 5 asientos de traspasos de costos en el Libro Diario y se determinó un Costo Unitario de Producción de $${costoUnitarioCalculado.toFixed(2)}. Navegando a la pestaña de Reportes...`);
+        alert(`Cierre de costos procesado con éxito para ${qty} unidades.\n\nSe registraron los asientos de diario automáticos de traspasos y consumos y se determinó el Costo Unitario de Producción ($${costoUnitarioCalculado.toFixed(2)}).\n\nRedirigiendo a reportes...`);
         
         // Ir a pestaña de reportes de inmediato
         document.querySelector('[data-tab="reports"]').click();
         
     } catch (e) {
-        alert("Error en simulación: " + e.message);
+        alert("Error en proceso: " + e.message);
     }
 }
 
