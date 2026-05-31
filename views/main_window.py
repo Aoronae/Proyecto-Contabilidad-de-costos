@@ -27,7 +27,7 @@ class MainWindow(tk.Tk):
         # Configuración de la ventana principal
         self.title("COST ERP - Sistema Contable y Administrativo de Costos")
         self.geometry("1200x800")
-        self.configure(bg="#F1F5F9") # Gris claro frío (estilo tailwind slate-100)
+        self.configure(bg="#F8FAFC") # Gris/Blanco ultra suave (Tailwind Slate 50)
         
         # Cargar base de datos
         self.db_data = database.load_db()
@@ -41,42 +41,17 @@ class MainWindow(tk.Tk):
         self.top_bar.pack_propagate(False)
         
         # Logotipo / Título de la App (Izquierda de la barra superior)
-        self.logo_frame = tk.Frame(self.top_bar, bg="#FFFFFF", padx=20)
+        self.logo_frame = tk.Frame(self.top_bar, bg="#FFFFFF", padx=25)
         self.logo_frame.pack(side="left", fill="y")
         
         self.lbl_logo_title = tk.Label(self.logo_frame, text="Cost ERP", font=("Segoe UI", 18, "bold"), fg="#0F172A", bg="#FFFFFF")
         self.lbl_logo_title.pack(anchor="w", pady=(10, 0))
         
-        self.lbl_logo_subtitle = tk.Label(self.logo_frame, text="Sistema contable modular de costos de producción", font=("Segoe UI", 8), fg="#64748B", bg="#FFFFFF")
+        self.lbl_logo_subtitle = tk.Label(self.logo_frame, text="Sistema contable modular de costos de producción", font=("Segoe UI", 9), fg="#64748B", bg="#FFFFFF")
         self.lbl_logo_subtitle.pack(anchor="w")
         
-        # Tarjeta de Perfil de Usuario (Derecha de la barra superior)
-        self.profile_card = tk.Frame(self.top_bar, bg="#FFFFFF", padx=20)
-        self.profile_card.pack(side="right", fill="y")
-        
-        # Panel interno para simular tarjeta de perfil redondeada
-        self.user_frame = tk.Frame(self.profile_card, bg="#FFFFFF", bd=0, highlightbackground="#F1F5F9", highlightthickness=1, padx=12, pady=6)
-        self.user_frame.pack(side="right", pady=10)
-        
-        # Círculo del Avatar (Canvas para dibujar un círculo perfecto)
-        self.avatar_canvas = tk.Canvas(self.user_frame, bg="#FFFFFF", width=36, height=36, bd=0, highlightthickness=0)
-        self.avatar_canvas.pack(side="left", padx=(0, 8))
-        
-        # Dibujar círculo navy y letra "A"
-        self.avatar_canvas.create_oval(2, 2, 34, 34, fill="#002D54", outline="")
-        self.avatar_canvas.create_text(18, 18, text="A", fill="#FFFFFF", font=("Segoe UI", 12, "bold"))
-        
-        # Datos del usuario
-        self.user_details = tk.Frame(self.user_frame, bg="#FFFFFF")
-        self.user_details.pack(side="left")
-        
-        self.lbl_username = tk.Label(self.user_details, text="admin", font=("Segoe UI", 9, "bold"), fg="#0F172A", bg="#FFFFFF")
-        self.lbl_username.pack(anchor="w")
-        self.lbl_session = tk.Label(self.user_details, text="Sesión", font=("Segoe UI", 8), fg="#94A3B8", bg="#FFFFFF")
-        self.lbl_session.pack(anchor="w")
-        
         # --- 2. CONTENEDOR PRINCIPAL INFERIOR ---
-        self.main_container = tk.Frame(self, bg="#F1F5F9")
+        self.main_container = tk.Frame(self, bg="#F8FAFC")
         self.main_container.pack(side="bottom", expand=True, fill="both")
         
         # --- 3. MENÚ LATERAL (SIDEBAR CONDENSADO) - Estilo Vantti POS ---
@@ -108,7 +83,7 @@ class MainWindow(tk.Tk):
         self.build_sidebar_footer()
         
         # --- 4. PANEL DE CONTENIDO GENERAL ---
-        self.content_frame = tk.Frame(self.main_container, bg="#F1F5F9", padx=30, pady=25)
+        self.content_frame = tk.Frame(self.main_container, bg="#F8FAFC", padx=30, pady=25)
         self.content_frame.pack(side="right", expand=True, fill="both")
         
         # Inicializar vistas modulares
@@ -191,22 +166,22 @@ class MainWindow(tk.Tk):
                 widget.bind("<Leave>", lambda e, k=key: self.on_menu_leave(k))
 
     def build_sidebar_footer(self):
-        """Crea el botón de cierre / reset al fondo del menú lateral."""
+        """Crea el botón de reinicio al fondo del menú lateral."""
         footer_frame = tk.Frame(self.sidebar_frame, bg="#002D54", height=70, cursor="hand2")
         footer_frame.pack(side="bottom", fill="x", pady=10)
         footer_frame.pack_propagate(False)
         
-        icon_lbl = tk.Label(footer_frame, text="🚪", font=("Segoe UI", 16), fg="#EF4444", bg="#002D54")
+        icon_lbl = tk.Label(footer_frame, text="🔄", font=("Segoe UI", 16), fg=config.COLOR_GOLD, bg="#002D54")
         icon_lbl.pack(anchor="center", pady=(5, 2))
         
-        text_lbl = tk.Label(footer_frame, text="Cerrar", font=("Segoe UI", 8, "bold"), fg="#F87171", bg="#002D54")
+        text_lbl = tk.Label(footer_frame, text="Reiniciar", font=("Segoe UI", 8, "bold"), fg="#CBD5E1", bg="#002D54")
         text_lbl.pack(anchor="center")
         
-        # Enlazar eventos del botón de cierre
+        # Enlazar eventos del botón de reinicio
         for widget in (footer_frame, icon_lbl, text_lbl):
             widget.bind("<Button-1>", lambda e: self.reset_system())
-            widget.bind("<Enter>", lambda e: [icon_lbl.configure(fg="#F87171"), text_lbl.configure(fg="#EF4444")])
-            widget.bind("<Leave>", lambda e: [icon_lbl.configure(fg="#EF4444"), text_lbl.configure(fg="#F87171")])
+            widget.bind("<Enter>", lambda e: [icon_lbl.configure(fg="#FFFFFF"), text_lbl.configure(fg=config.COLOR_GOLD)])
+            widget.bind("<Leave>", lambda e: [icon_lbl.configure(fg=config.COLOR_GOLD), text_lbl.configure(fg="#CBD5E1")])
 
     def on_menu_enter(self, key):
         """Efecto hover al pasar el cursor sobre un botón del menú lateral."""

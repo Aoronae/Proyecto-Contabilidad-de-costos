@@ -71,14 +71,14 @@ class InitView(tk.Frame):
                                      justify="left")
         explanation_label.pack(side="left", anchor="w")
         
-        # Botón Institucional de Carga
+        # Botón Institucional de Carga (Estilo Vantti POS: Dorado con texto oscuro)
         self.load_btn = tk.Button(practice_card, 
                                   text="🚀  Cargar Proyecto de Práctica", 
                                   font=config.FONT_BODY_BOLD, 
-                                  fg=config.COLOR_TEXT_LIGHT, 
-                                  bg=config.COLOR_SECONDARY, 
-                                  activebackground=config.COLOR_HOVER, 
-                                  activeforeground=config.COLOR_TEXT_LIGHT,
+                                  fg=config.COLOR_PRIMARY, 
+                                  bg=config.COLOR_GOLD, 
+                                  activebackground="#F59E0B", 
+                                  activeforeground=config.COLOR_PRIMARY,
                                   bd=0, 
                                   padx=20, 
                                   pady=12,
@@ -157,4 +157,4 @@ class InitView(tk.Frame):
         if data.get("practice_project_loaded", False):
             self.load_btn.configure(text="✅  Proyecto de Práctica Cargado", bg=config.COLOR_PRIMARY, state="disabled")
         else:
-            self.load_btn.configure(text="🚀  Cargar Proyecto de Práctica", bg=config.COLOR_SECONDARY, state="normal")
+            self.load_btn.configure(text="🚀  Cargar Proyecto de Práctica", bg=config.COLOR_GOLD, state="normal")
