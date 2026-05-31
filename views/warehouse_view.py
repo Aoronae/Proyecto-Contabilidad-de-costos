@@ -106,8 +106,10 @@ class WarehouseView(tk.Frame):
                                       bg=config.COLOR_CARD, 
                                       bd=1, 
                                       padx=15, 
-                                      pady=10)
-        formula_frame.pack(side="right", fill="both", width=380)
+                                      pady=10,
+                                      width=380)
+        formula_frame.pack_propagate(False)
+        formula_frame.pack(side="right", fill="both")
         
         formula_text = (
             "1. Entrada: Aumenta la existencia y el saldo.\n"
