@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local database file (state)
+data.json
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# VS Code / IDEs
+.vscode/
+.idea/
