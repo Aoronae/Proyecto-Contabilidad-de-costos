@@ -7,30 +7,30 @@ Establece la paleta de colores institucional requerida.
 
 # PALETA DE COLORES (Requisitos visuales del usuario)
 # Fondo y Paneles: Blanco o gris muy claro
-COLOR_BG = "#F4F6F9"          # Gris claro con sutil matiz azul/hielo, limpio y elegante
+COLOR_BG = "#FAFAFA"          # Blanco general muy suave, limpio y elegante
 COLOR_CARD = "#FFFFFF"        # Blanco puro para tarjetas y paneles elevados
-COLOR_BORDER = "#D5DBDB"      # Bordes sutiles en tono gris azulado pálido
+COLOR_BORDER = "#E2E8F0"      # Gris claro para bordes sutiles
 
-# Botones, cabeceras y herramientas: Azul Índigo & Steel Blue
-COLOR_PRIMARY = "#0D253F"     # Azul Índigo profundo, corporativo e intelectual
-COLOR_SECONDARY = "#1F4E79"   # Azul acero (Steel Blue) para botones y acciones
-COLOR_HOVER = "#2471A3"       # Azul cobalto brillante para hover
+# Botones, cabeceras y herramientas: Gris Medio Sofisticado & Slate
+COLOR_PRIMARY = "#1E293B"     # Slate 800 (Gris oscuro elegante) para cabeceras y texto
+COLOR_SECONDARY = "#64748B"   # Gris medio sofisticado (Slate 500) para botones y acciones
+COLOR_HOVER = "#475569"       # Slate 600 para estados hover
 
-# Detalles, alertas, bordes de selección y resaltados: Dorado Champaña
-COLOR_GOLD = "#C5A059"        # Dorado Champaña sofisticado y formal
-COLOR_ACCENT = "#C5A059"      # Color de acento para la selección y enfoque
-COLOR_GOLD_DARK = "#9A731C"   # Dorado oscuro legible para texto
-COLOR_GOLD_LIGHT = "#FDF6E6"  # Crema champaña suave para fondos de alerta
+# Detalles, alertas, bordes de selección y resaltados: Naranja Vibrante
+COLOR_GOLD = "#F97316"        # Naranja vibrante de alta conversión
+COLOR_ACCENT = "#F97316"      # Color de acento para la selección y enfoque
+COLOR_GOLD_DARK = "#C2410C"   # Naranja oscuro legible para texto
+COLOR_GOLD_LIGHT = "#FFEDD5"  # Naranja claro suave (Orange 100) para fondos de alerta
 
 # Sidebar específico
-COLOR_SIDEBAR = "#0D253F"     # Fondo Azul Índigo profundo de barra lateral
-COLOR_SIDEBAR_HOVER = "#1F4E79"# Hover azul acero en menú lateral
+COLOR_SIDEBAR = "#64748B"     # Fondo gris medio de barra lateral
+COLOR_SIDEBAR_HOVER = "#475569"# Hover gris oscuro en menú lateral
 
 # Colores de apoyo contable
-COLOR_DEBE = "#0E6251"        # Verde esmeralda profundo para debe
-COLOR_HABER = "#78281F"       # Rojo terracota profundo para haber
-COLOR_TEXT_DARK = "#1F2D3D"   # Texto principal en tono pizarra azulado oscuro
-COLOR_TEXT_MUTED = "#5D6D7E"  # Texto secundario en tono gris acero
+COLOR_DEBE = "#16A34A"        # Verde contable elegante para debe
+COLOR_HABER = "#DC2626"       # Rojo contable elegante para haber
+COLOR_TEXT_DARK = "#0F172A"   # Texto principal Slate 900
+COLOR_TEXT_MUTED = "#64748B"  # Texto secundario Slate 500
 COLOR_TEXT_LIGHT = "#FFFFFF"  # Texto claro para botones/cabeceras
 
 # TIPOGRAFÍAS

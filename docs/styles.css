@@ -5,19 +5,19 @@
 
 /* Variables de Diseño */
 :root {
-    --color-bg-light: #F4F6F9;      /* Gris claro con sutil matiz azul/hielo, limpio y elegante */
+    --color-bg-light: #FAFAFA;      /* Blanco limpio y suave para fondo general */
     --color-card: #FFFFFF;          /* Blanco puro para tarjetas */
-    --color-primary: #0D253F;       /* Azul Índigo profundo, académico e intelectual */
-    --color-secondary: #0D253F;     /* Fondo de barra lateral */
-    --color-secondary-hover: #1F4E79;/* Hover azul acero (Steel Blue) */
-    --color-gold: #C5A059;          /* Dorado Champaña sofisticado y formal */
-    --color-gold-hover: #D4AC0D;    /* Dorado hover */
-    --color-gold-light: #FDF6E6;    /* Crema champaña suave para fondos de alerta y enfoques */
-    --color-text-dark: #1F2D3D;     /* Texto principal en tono pizarra azulado oscuro */
-    --color-text-muted: #5D6D7E;    /* Texto secundario en tono gris acero */
-    --color-border: #D5DBDB;        /* Bordes sutiles en tono gris azulado pálido */
-    --color-debe: #0E6251;          /* Verde esmeralda profundo para debe contable */
-    --color-haber: #78281F;         /* Rojo terracota profundo contable para haber */
+    --color-primary: #1E293B;       /* Slate 800 (Gris oscuro sofisticado) para texto y títulos */
+    --color-secondary: #64748B;     /* Gris medio sofisticado (Slate 500) para barra lateral y botones */
+    --color-secondary-hover: #475569;/* Gris oscuro (Slate 600) para hover */
+    --color-gold: #F97316;          /* Naranja vibrante de alta conversión */
+    --color-gold-hover: #EA580C;    /* Naranja hover */
+    --color-gold-light: #FFEDD5;    /* Naranja claro suave (Orange 100) para alertas y enfoques */
+    --color-text-dark: #0F172A;     /* Texto principal Slate 900 */
+    --color-text-muted: #64748B;    /* Texto secundario Slate 500 */
+    --color-border: #E2E8F0;        /* Bordes sutiles gris claro */
+    --color-debe: #16A34A;          /* Verde contable para debe */
+    --color-haber: #DC2626;         /* Rojo contable para haber */
 }
 
 /* Reset y Estilos Globales */
