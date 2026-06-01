@@ -25,7 +25,7 @@ class MainWindow(tk.Tk):
         super().__init__()
         
         # Configuración de la ventana principal
-        self.title("COST ERP - Sistema Contable y Administrativo de Costos")
+        self.title("Programa Contable - Costos de Producción")
         self.geometry("1200x800")
         self.configure(bg="#F8FAFC") # Gris/Blanco ultra suave (Tailwind Slate 50)
         
@@ -44,10 +44,10 @@ class MainWindow(tk.Tk):
         self.logo_frame = tk.Frame(self.top_bar, bg="#FFFFFF", padx=25)
         self.logo_frame.pack(side="left", fill="y")
         
-        self.lbl_logo_title = tk.Label(self.logo_frame, text="Cost ERP", font=("Segoe UI", 18, "bold"), fg="#0F172A", bg="#FFFFFF")
+        self.lbl_logo_title = tk.Label(self.logo_frame, text="Programa Contable", font=("Segoe UI", 18, "bold"), fg="#0F172A", bg="#FFFFFF")
         self.lbl_logo_title.pack(anchor="w", pady=(10, 0))
         
-        self.lbl_logo_subtitle = tk.Label(self.logo_frame, text="Sistema contable modular de costos de producción", font=("Segoe UI", 9), fg="#64748B", bg="#FFFFFF")
+        self.lbl_logo_subtitle = tk.Label(self.logo_frame, text="Sistema Contable de Costos de Producción", font=("Segoe UI", 9), fg="#64748B", bg="#FFFFFF")
         self.lbl_logo_subtitle.pack(anchor="w")
         
         # --- 2. CONTENEDOR PRINCIPAL INFERIOR ---
