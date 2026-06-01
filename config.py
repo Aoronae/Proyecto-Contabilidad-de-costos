@@ -16,11 +16,11 @@ COLOR_PRIMARY = "#111111"     # Gris carbón casi negro (Gray 950) para cabecera
 COLOR_SECONDARY = "#1E1E1E"   # Gris oscuro profundo (Gray 900) para botones y acciones
 COLOR_HOVER = "#2D2D2D"       # Gris oscuro medio (Gray 800) para estados hover
 
-# Detalles, alertas, bordes de selección y resaltados: Naranja Neón Ultra Brillante
-COLOR_GOLD = "#FF3300"        # Naranja neón de alto impacto y luminiscencia
-COLOR_ACCENT = "#FF3300"      # Color de acento para la selección y enfoque
-COLOR_GOLD_DARK = "#CC2900"   # Naranja neón oscuro legible para texto
-COLOR_GOLD_LIGHT = "#FFEBE6"  # Crema naranja neón suave para fondos de alerta
+# Detalles, alertas, bordes de selección y resaltados: Amarillo Dorado Vibrante
+COLOR_GOLD = "#FFC72C"        # Amarillo dorado vibrante, sofisticado y de alto contraste
+COLOR_ACCENT = "#FFC72C"      # Color de acento para la selección y enfoque
+COLOR_GOLD_DARK = "#B78A10"   # Amarillo dorado oscuro legible para texto
+COLOR_GOLD_LIGHT = "#FFF8E7"  # Crema dorado muy suave para fondos de alerta
 
 # Sidebar específico
 COLOR_SIDEBAR = "#121212"     # Fondo gris carbón jet (casi negro) de barra lateral

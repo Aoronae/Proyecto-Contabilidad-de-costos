@@ -887,8 +887,8 @@ function drawPEChart(fc, price, vc, peUnits) {
     if (peUnits > 0 && peUnits < maxUnits) {
         const pePos = toPx(peUnits, peUnits * price);
         
-        // Líneas de alineación punteadas en Naranja Neón
-        ctx.strokeStyle = "#FF3300";
+        // Líneas de alineación punteadas en Amarillo Dorado
+        ctx.strokeStyle = "#FFC72C";
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 3]);
         
@@ -900,8 +900,8 @@ function drawPEChart(fc, price, vc, peUnits) {
         ctx.stroke();
         ctx.setLineDash([]);
         
-        // Dibujar círculo naranja neón de PE
-        ctx.fillStyle = "#FF3300";
+        // Dibujar círculo amarillo dorado de PE
+        ctx.fillStyle = "#FFC72C";
         ctx.strokeStyle = "#111111";
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -910,7 +910,7 @@ function drawPEChart(fc, price, vc, peUnits) {
         ctx.stroke();
         
         // Globo informativo
-        ctx.fillStyle = "#CC2900";
+        ctx.fillStyle = "#B78A10";
         ctx.font = "bold 10px Inter";
         ctx.textAlign = "left";
         ctx.fillText(`PE (${Math.round(peUnits)} un.)`, pePos.x + 10, pePos.y - 4);
