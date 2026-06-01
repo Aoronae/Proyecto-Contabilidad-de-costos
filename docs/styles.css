@@ -5,19 +5,19 @@
 
 /* Variables de Diseño */
 :root {
-    --color-bg-light: #F4F7F5;      /* Blanco/Grisáceo Sage muy suave y elegante */
+    --color-bg-light: #F4F6F9;      /* Gris claro con sutil matiz azul/hielo, limpio y elegante */
     --color-card: #FFFFFF;          /* Blanco puro para tarjetas */
-    --color-primary: #0B3C30;       /* Verde bosque profundo, académico y formal */
-    --color-secondary: #0B3C30;     /* Fondo de barra lateral */
-    --color-secondary-hover: #0E5A47;/* Hover verde */
-    --color-gold: #B58C3D;          /* Dorado Arena Metálico premium */
-    --color-gold-hover: #D0A756;    /* Dorado hover */
-    --color-gold-light: #FBF4E6;    /* Crema suave dorado para avisos y enfoques */
-    --color-text-dark: #1E2E2A;     /* Texto principal en tono pizarra verde oscuro */
-    --color-text-muted: #556B65;    /* Texto secundario en tono verde grisáceo */
-    --color-border: #D1DCD6;        /* Bordes sutiles en tono verde pálido */
-    --color-debe: #047857;          /* Verde esmeralda para debe contable */
-    --color-haber: #B91C1C;         /* Rojo contable elegante para haber */
+    --color-primary: #0D253F;       /* Azul Índigo profundo, académico e intelectual */
+    --color-secondary: #0D253F;     /* Fondo de barra lateral */
+    --color-secondary-hover: #1F4E79;/* Hover azul acero (Steel Blue) */
+    --color-gold: #C5A059;          /* Dorado Champaña sofisticado y formal */
+    --color-gold-hover: #D4AC0D;    /* Dorado hover */
+    --color-gold-light: #FDF6E6;    /* Crema champaña suave para fondos de alerta y enfoques */
+    --color-text-dark: #1F2D3D;     /* Texto principal en tono pizarra azulado oscuro */
+    --color-text-muted: #5D6D7E;    /* Texto secundario en tono gris acero */
+    --color-border: #D5DBDB;        /* Bordes sutiles en tono gris azulado pálido */
+    --color-debe: #0E6251;          /* Verde esmeralda profundo para debe contable */
+    --color-haber: #78281F;         /* Rojo terracota profundo contable para haber */
 }
 
 /* Reset y Estilos Globales */

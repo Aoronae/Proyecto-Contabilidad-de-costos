@@ -7,30 +7,30 @@ Establece la paleta de colores institucional requerida.
 
 # PALETA DE COLORES (Requisitos visuales del usuario)
 # Fondo y Paneles: Blanco o gris muy claro
-COLOR_BG = "#F4F7F5"          # Blanco/Grisáceo Sage muy suave y elegante
+COLOR_BG = "#F4F6F9"          # Gris claro con sutil matiz azul/hielo, limpio y elegante
 COLOR_CARD = "#FFFFFF"        # Blanco puro para tarjetas y paneles elevados
-COLOR_BORDER = "#D1DCD6"      # Bordes sutiles en tono verde pálido
+COLOR_BORDER = "#D5DBDB"      # Bordes sutiles en tono gris azulado pálido
 
-# Botones, cabeceras y herramientas: Verde Bosque Académico
-COLOR_PRIMARY = "#0B3C30"     # Verde bosque profundo, académico y formal
-COLOR_SECONDARY = "#0E5A47"   # Verde esmeralda medio para botones
-COLOR_HOVER = "#12755D"       # Verde esmeralda claro para hover
+# Botones, cabeceras y herramientas: Azul Índigo & Steel Blue
+COLOR_PRIMARY = "#0D253F"     # Azul Índigo profundo, corporativo e intelectual
+COLOR_SECONDARY = "#1F4E79"   # Azul acero (Steel Blue) para botones y acciones
+COLOR_HOVER = "#2471A3"       # Azul cobalto brillante para hover
 
-# Detalles, alertas, bordes de selección y resaltados: Dorado Arena
-COLOR_GOLD = "#B58C3D"        # Dorado Arena Metálico premium
-COLOR_ACCENT = "#B58C3D"      # Color de acento para la selección y enfoque
-COLOR_GOLD_DARK = "#7E5E1C"   # Dorado oscuro legible para texto
-COLOR_GOLD_LIGHT = "#FBF4E6"  # Crema suave dorado para fondos de alerta
+# Detalles, alertas, bordes de selección y resaltados: Dorado Champaña
+COLOR_GOLD = "#C5A059"        # Dorado Champaña sofisticado y formal
+COLOR_ACCENT = "#C5A059"      # Color de acento para la selección y enfoque
+COLOR_GOLD_DARK = "#9A731C"   # Dorado oscuro legible para texto
+COLOR_GOLD_LIGHT = "#FDF6E6"  # Crema champaña suave para fondos de alerta
 
 # Sidebar específico
-COLOR_SIDEBAR = "#0B3C30"     # Fondo verde bosque profundo de barra lateral
-COLOR_SIDEBAR_HOVER = "#0E5A47"# Hover verde en menú lateral
+COLOR_SIDEBAR = "#0D253F"     # Fondo Azul Índigo profundo de barra lateral
+COLOR_SIDEBAR_HOVER = "#1F4E79"# Hover azul acero en menú lateral
 
 # Colores de apoyo contable
-COLOR_DEBE = "#047857"        # Verde esmeralda para debe
-COLOR_HABER = "#B91C1C"       # Rojo contable elegante para haber
-COLOR_TEXT_DARK = "#1E2E2A"   # Texto principal en tono pizarra verde oscuro
-COLOR_TEXT_MUTED = "#556B65"  # Texto secundario en tono verde grisáceo
+COLOR_DEBE = "#0E6251"        # Verde esmeralda profundo para debe
+COLOR_HABER = "#78281F"       # Rojo terracota profundo para haber
+COLOR_TEXT_DARK = "#1F2D3D"   # Texto principal en tono pizarra azulado oscuro
+COLOR_TEXT_MUTED = "#5D6D7E"  # Texto secundario en tono gris acero
 COLOR_TEXT_LIGHT = "#FFFFFF"  # Texto claro para botones/cabeceras
 
 # TIPOGRAFÍAS
