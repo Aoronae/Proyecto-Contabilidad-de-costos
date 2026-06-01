@@ -5,19 +5,19 @@
 
 /* Variables de Diseño */
 :root {
-    --color-bg-light: #F8FAFC;      /* Gris ultra claro y suave */
+    --color-bg-light: #F4F7F5;      /* Blanco/Grisáceo Sage muy suave y elegante */
     --color-card: #FFFFFF;          /* Blanco puro para tarjetas */
-    --color-primary: #0F172A;        /* Slate 900 (Azul marino profundo) */
-    --color-secondary: #002D54;      /* Navy exacto del menú lateral */
-    --color-secondary-hover: #0B3C68;/* Navy hover */
-    --color-gold: #D4AF37;           /* Dorado Metálico */
-    --color-gold-hover: #F59E0B;     /* Dorado hover (Ámbar) */
-    --color-gold-light: #FEF3C7;     /* Amarillo claro para avisos */
-    --color-text-dark: #1E293B;      /* Texto principal */
-    --color-text-muted: #64748B;    /* Texto secundario */
-    --color-border: #E2E8F0;        /* Gris claro para bordes sutiles */
-    --color-debe: #16A34A;          /* Verde contable */
-    --color-haber: #DC2626;         /* Rojo contable */
+    --color-primary: #0B3C30;       /* Verde bosque profundo, académico y formal */
+    --color-secondary: #0B3C30;     /* Fondo de barra lateral */
+    --color-secondary-hover: #0E5A47;/* Hover verde */
+    --color-gold: #B58C3D;          /* Dorado Arena Metálico premium */
+    --color-gold-hover: #D0A756;    /* Dorado hover */
+    --color-gold-light: #FBF4E6;    /* Crema suave dorado para avisos y enfoques */
+    --color-text-dark: #1E2E2A;     /* Texto principal en tono pizarra verde oscuro */
+    --color-text-muted: #556B65;    /* Texto secundario en tono verde grisáceo */
+    --color-border: #D1DCD6;        /* Bordes sutiles en tono verde pálido */
+    --color-debe: #047857;          /* Verde esmeralda para debe contable */
+    --color-haber: #B91C1C;         /* Rojo contable elegante para haber */
 }
 
 /* Reset y Estilos Globales */

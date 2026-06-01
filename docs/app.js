@@ -851,18 +851,18 @@ function drawPEChart(fc, price, vc, peUnits) {
     ctx.textAlign = "right";
     ctx.fillText("Costos Fijos", p2CF.x - 5, p2CF.y - 6);
     
-    // B. Ventas / Ingreso Total (Línea Azul Royal)
+    // B. Ventas / Ingreso Total (Línea Verde Esmeralda)
     const p1V = toPx(0, 0);
     const p2V = toPx(maxUnits, maxUnits * price);
     
-    ctx.strokeStyle = "#002D54";
+    ctx.strokeStyle = "#0B3C30";
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(p1V.x, p1V.y);
     ctx.lineTo(p2V.x, p2V.y);
     ctx.stroke();
     
-    ctx.fillStyle = "#002D54";
+    ctx.fillStyle = "#0B3C30";
     ctx.font = "bold 9px Inter";
     ctx.textAlign = "right";
     ctx.fillText("Ventas", p2V.x - 5, p2V.y - 8);
@@ -887,8 +887,8 @@ function drawPEChart(fc, price, vc, peUnits) {
     if (peUnits > 0 && peUnits < maxUnits) {
         const pePos = toPx(peUnits, peUnits * price);
         
-        // Líneas de alineación punteadas en Dorado
-        ctx.strokeStyle = "#D4AF37";
+        // Líneas de alineación punteadas en Dorado Arena
+        ctx.strokeStyle = "#B58C3D";
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 3]);
         
@@ -901,8 +901,8 @@ function drawPEChart(fc, price, vc, peUnits) {
         ctx.setLineDash([]);
         
         // Dibujar círculo dorado de PE
-        ctx.fillStyle = "#D4AF37";
-        ctx.strokeStyle = "#002D54";
+        ctx.fillStyle = "#B58C3D";
+        ctx.strokeStyle = "#0B3C30";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(pePos.x, pePos.y, 6, 0, 2 * Math.PI);
@@ -910,7 +910,7 @@ function drawPEChart(fc, price, vc, peUnits) {
         ctx.stroke();
         
         // Globo informativo
-        ctx.fillStyle = "#B45309";
+        ctx.fillStyle = "#7E5E1C";
         ctx.font = "bold 10px Inter";
         ctx.textAlign = "left";
         ctx.fillText(`PE (${Math.round(peUnits)} un.)`, pePos.x + 10, pePos.y - 4);
