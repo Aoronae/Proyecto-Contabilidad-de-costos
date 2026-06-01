@@ -159,7 +159,7 @@ function setupEventListeners() {
     
     // Botón de Reiniciar
     document.getElementById("btn-reset").addEventListener("click", () => {
-        if (confirm("¿Estás seguro de que deseas limpiar la simulación y vaciar el ERP?")) {
+        if (confirm("¿Estás seguro de que deseas restablecer por completo todo el sistema?")) {
             resetState();
             updateUI();
             alert("Sistema restablecido correctamente.");
