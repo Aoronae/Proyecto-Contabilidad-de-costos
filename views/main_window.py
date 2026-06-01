@@ -55,12 +55,13 @@ class MainWindow(tk.Tk):
         self.main_container.pack(side="bottom", expand=True, fill="both")
         
         # --- 3. MENÚ LATERAL (SIDEBAR CONDENSADO) - Estilo Vantti POS ---
-        self.sidebar_frame = tk.Frame(self.main_container, bg=config.COLOR_SIDEBAR, width=110)
+        # Color Gris muy oscuro exacto (#1F2937)
+        self.sidebar_frame = tk.Frame(self.main_container, bg="#1F2937", width=110)
         self.sidebar_frame.pack(side="left", fill="y")
         self.sidebar_frame.pack_propagate(False)
         
         # Contenedor para alinear los botones en el centro de la barra lateral
-        self.menu_buttons_container = tk.Frame(self.sidebar_frame, bg=config.COLOR_SIDEBAR, pady=15)
+        self.menu_buttons_container = tk.Frame(self.sidebar_frame, bg="#1F2937", pady=15)
         self.menu_buttons_container.pack(fill="both", expand=True)
         
         self.views = {}
@@ -131,22 +132,22 @@ class MainWindow(tk.Tk):
         """Crea los botones verticales estilizados idénticos a los de Vantti POS."""
         for key, icon, text, command in self.menu_items:
             # Frame contenedor del botón completo (para manejar espaciado e interactividad)
-            btn_frame = tk.Frame(self.menu_buttons_container, bg=config.COLOR_SIDEBAR, height=90, cursor="hand2")
+            btn_frame = tk.Frame(self.menu_buttons_container, bg="#1F2937", height=90, cursor="hand2")
             btn_frame.pack(fill="x", pady=6)
             btn_frame.pack_propagate(False)
             
-            # Canvas interno para dresenhar la pastilla/óvalo de selección e icono
-            icon_canvas = tk.Canvas(btn_frame, bg=config.COLOR_SIDEBAR, width=55, height=36, bd=0, highlightthickness=0)
+            # Canvas interno para dibujar la pastilla/óvalo de selección e icono
+            icon_canvas = tk.Canvas(btn_frame, bg="#1F2937", width=55, height=36, bd=0, highlightthickness=0)
             icon_canvas.pack(anchor="center", pady=(10, 2))
             
             # Dibujar pastilla de selección (por defecto invisible / color de fondo)
-            oval_id = icon_canvas.create_oval(2, 2, 53, 34, fill=config.COLOR_SIDEBAR, outline="")
+            oval_id = icon_canvas.create_oval(2, 2, 53, 34, fill="#1F2937", outline="")
             
             # Añadir icono (Emoji / Unicode) centrado sobre la pastilla
             icon_canvas.create_text(27, 18, text=icon, fill="#FFFFFF", font=("Segoe UI", 16))
             
             # Etiqueta de texto debajo del icono
-            text_label = tk.Label(btn_frame, text=text, font=("Segoe UI", 8, "bold"), fg="#FFFFFF", bg=config.COLOR_SIDEBAR)
+            text_label = tk.Label(btn_frame, text=text, font=("Segoe UI", 8, "bold"), fg="#FFFFFF", bg="#1F2937")
             text_label.pack(anchor="center")
             
             # Guardar referencias para poder modificar estilos al hacer click / hover
@@ -163,17 +164,17 @@ class MainWindow(tk.Tk):
                 widget.bind("<Button-1>", lambda e, k=key: self.on_menu_click(k))
                 widget.bind("<Enter>", lambda e, k=key: self.on_menu_enter(k))
                 widget.bind("<Leave>", lambda e, k=key: self.on_menu_leave(k))
- 
+
     def build_sidebar_footer(self):
         """Crea el botón de reinicio al fondo del menú lateral."""
-        footer_frame = tk.Frame(self.sidebar_frame, bg=config.COLOR_SIDEBAR, height=70, cursor="hand2")
+        footer_frame = tk.Frame(self.sidebar_frame, bg="#1F2937", height=70, cursor="hand2")
         footer_frame.pack(side="bottom", fill="x", pady=10)
         footer_frame.pack_propagate(False)
         
-        icon_lbl = tk.Label(footer_frame, text="↻", font=("Segoe UI", 16), fg=config.COLOR_GOLD, bg=config.COLOR_SIDEBAR)
+        icon_lbl = tk.Label(footer_frame, text="↻", font=("Segoe UI", 16), fg=config.COLOR_GOLD, bg="#1F2937")
         icon_lbl.pack(anchor="center", pady=(5, 2))
         
-        text_lbl = tk.Label(footer_frame, text="Reiniciar", font=("Segoe UI", 8, "bold"), fg="#CBD5E1", bg=config.COLOR_SIDEBAR)
+        text_lbl = tk.Label(footer_frame, text="Reiniciar", font=("Segoe UI", 8, "bold"), fg="#CBD5E1", bg="#1F2937")
         text_lbl.pack(anchor="center")
         
         # Enlazar eventos del botón de reinicio
@@ -181,36 +182,36 @@ class MainWindow(tk.Tk):
             widget.bind("<Button-1>", lambda e: self.reset_system())
             widget.bind("<Enter>", lambda e: [icon_lbl.configure(fg="#FFFFFF"), text_lbl.configure(fg=config.COLOR_GOLD)])
             widget.bind("<Leave>", lambda e: [icon_lbl.configure(fg=config.COLOR_GOLD), text_lbl.configure(fg="#CBD5E1")])
- 
+
     def on_menu_enter(self, key):
         """Efecto hover al pasar el cursor sobre un botón del menú lateral."""
         if self.active_view != key:
-            # Sutil cambio a un color de fondo hover
-            self.nav_items[key]["frame"].configure(bg=config.COLOR_SIDEBAR_HOVER)
-            self.nav_items[key]["canvas"].configure(bg=config.COLOR_SIDEBAR_HOVER)
-            self.nav_items[key]["label"].configure(bg=config.COLOR_SIDEBAR_HOVER)
- 
+            # Sutil cambio a un color gris más claro
+            self.nav_items[key]["frame"].configure(bg="#374151")
+            self.nav_items[key]["canvas"].configure(bg="#374151")
+            self.nav_items[key]["label"].configure(bg="#374151")
+
     def on_menu_leave(self, key):
         """Efecto leave al retirar el cursor del botón del menú lateral."""
         if self.active_view != key:
             # Regresar al fondo original
-            self.nav_items[key]["frame"].configure(bg=config.COLOR_SIDEBAR)
-            self.nav_items[key]["canvas"].configure(bg=config.COLOR_SIDEBAR)
-            self.nav_items[key]["label"].configure(bg=config.COLOR_SIDEBAR)
- 
+            self.nav_items[key]["frame"].configure(bg="#1F2937")
+            self.nav_items[key]["canvas"].configure(bg="#1F2937")
+            self.nav_items[key]["label"].configure(bg="#1F2937")
+
     def on_menu_click(self, key):
         """Dispara el comando correspondiente al botón clickeado."""
         self.nav_items[key]["command"]()
- 
+
     def show_view(self, key):
-        """Cambia dinámicamente la pestaña seleccionada aplicando el estilo visual."""
+        """Cambia dinámicamente la pestaña seleccionada aplicando el estilo visual de Vantti POS."""
         # 1. Desactivar estilo visual del botón anterior
         if self.active_view and self.active_view in self.nav_items:
             item = self.nav_items[self.active_view]
-            item["frame"].configure(bg=config.COLOR_SIDEBAR)
-            item["canvas"].configure(bg=config.COLOR_SIDEBAR)
-            item["canvas"].itemconfig(item["oval"], fill=config.COLOR_SIDEBAR) # Ocultar pastilla
-            item["label"].configure(bg=config.COLOR_SIDEBAR, fg="#FFFFFF")
+            item["frame"].configure(bg="#1F2937")
+            item["canvas"].configure(bg="#1F2937")
+            item["canvas"].itemconfig(item["oval"], fill="#1F2937") # Ocultar pastilla
+            item["label"].configure(bg="#1F2937", fg="#FFFFFF")
             
         # Ocultar todas las sub-vistas
         for v in self.views.values():
@@ -219,10 +220,10 @@ class MainWindow(tk.Tk):
         # 2. Activar estilo visual del nuevo botón (Píldora dorada de selección)
         self.active_view = key
         item = self.nav_items[key]
-        item["frame"].configure(bg=config.COLOR_SIDEBAR)
-        item["canvas"].configure(bg=config.COLOR_SIDEBAR)
+        item["frame"].configure(bg="#1F2937")
+        item["canvas"].configure(bg="#1F2937")
         item["canvas"].itemconfig(item["oval"], fill=config.COLOR_GOLD) # Mostrar pastilla dorada
-        item["label"].configure(bg=config.COLOR_SIDEBAR, fg=config.COLOR_GOLD) # Texto en dorado
+        item["label"].configure(bg="#1F2937", fg=config.COLOR_GOLD) # Texto en dorado
         
         # Mostrar nueva vista
         self.views[key].pack(fill="both", expand=True)

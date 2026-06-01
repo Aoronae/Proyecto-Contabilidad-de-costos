@@ -5,20 +5,19 @@
 
 /* Variables de Diseño */
 :root {
-    --color-bg-light: #FAFAFA;      /* Blanco limpio y suave para fondo general */
+    --color-bg-light: #F8FAFC;      /* Gris ultra claro y suave */
     --color-card: #FFFFFF;          /* Blanco puro para tarjetas */
-    --color-primary: #111111;       /* Gris carbón casi negro (Gray 950) para cabeceras y textos */
-    --color-secondary: #121212;     /* Gris carbón jet (casi negro) de barra lateral y botones */
-    --color-secondary-hover: #242424;/* Gris carbón muy oscuro para hover */
-    --color-gold: #FFC72C;          /* Amarillo dorado vibrante, sofisticado y de alto contraste */
-    --color-gold-hover: #FFD455;    /* Amarillo dorado brillante hover */
-    --color-gold-light: #FFF8E7;    /* Crema dorado muy suave para fondos de alerta */
-    --color-gold-dark: #B78A10;     /* Amarillo dorado oscuro legible para texto */
-    --color-text-dark: #111111;     /* Texto principal carbón casi negro */
-    --color-text-muted: #555555;    /* Texto secundario gris medio */
-    --color-border: #E5E7EB;        /* Bordes sutiles gris claro */
-    --color-debe: #16A34A;          /* Verde contable para debe */
-    --color-haber: #DC2626;         /* Rojo contable para haber */
+    --color-primary: #0F172A;        /* Slate 900 (Azul marino profundo) */
+    --color-secondary: #1F2937;      /* Gris muy oscuro del menú lateral */
+    --color-secondary-hover: #374151;/* Gris hover */
+    --color-gold: #D4AF37;           /* Dorado Metálico */
+    --color-gold-hover: #F59E0B;     /* Dorado hover (Ámbar) */
+    --color-gold-light: #FEF3C7;     /* Amarillo claro para avisos */
+    --color-text-dark: #1E293B;      /* Texto principal */
+    --color-text-muted: #64748B;    /* Texto secundario */
+    --color-border: #E2E8F0;        /* Gris claro para bordes sutiles */
+    --color-debe: #16A34A;          /* Verde contable */
+    --color-haber: #DC2626;         /* Rojo contable */
 }
 
 /* Reset y Estilos Globales */

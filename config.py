@@ -7,30 +7,26 @@ Establece la paleta de colores institucional requerida.
 
 # PALETA DE COLORES (Requisitos visuales del usuario)
 # Fondo y Paneles: Blanco o gris muy claro
-COLOR_BG = "#FAFAFA"          # Blanco general muy suave, limpio y elegante
+COLOR_BG = "#F8FAFC"          # Gris ultra claro (Slate 50)
 COLOR_CARD = "#FFFFFF"        # Blanco puro para tarjetas y paneles elevados
-COLOR_BORDER = "#E5E7EB"      # Gris claro para bordes sutiles
+COLOR_BORDER = "#E2E8F0"      # Gris claro para bordes sutiles
 
-# Botones, cabeceras y herramientas: Gris Carbón Jet & Slate
-COLOR_PRIMARY = "#111111"     # Gris carbón casi negro (Gray 950) para cabeceras y textos
-COLOR_SECONDARY = "#1E1E1E"   # Gris oscuro profundo (Gray 900) para botones y acciones
-COLOR_HOVER = "#2D2D2D"       # Gris oscuro medio (Gray 800) para estados hover
+# Botones, cabeceras y herramientas: Azul Marino / Royal Blue
+COLOR_PRIMARY = "#0F172A"     # Azul marino profundo (Slate 900) para cabeceras y títulos
+COLOR_SECONDARY = "#1E3A8A"   # Azul Royal (Blue 800) para botones y acciones principales
+COLOR_HOVER = "#2563EB"       # Azul brillante (Blue 600) para estados hover
 
-# Detalles, alertas, bordes de selección y resaltados: Amarillo Dorado Vibrante
-COLOR_GOLD = "#FFC72C"        # Amarillo dorado vibrante, sofisticado y de alto contraste
-COLOR_ACCENT = "#FFC72C"      # Color de acento para la selección y enfoque
-COLOR_GOLD_DARK = "#B78A10"   # Amarillo dorado oscuro legible para texto
-COLOR_GOLD_LIGHT = "#FFF8E7"  # Crema dorado muy suave para fondos de alerta
-
-# Sidebar específico
-COLOR_SIDEBAR = "#121212"     # Fondo gris carbón jet (casi negro) de barra lateral
-COLOR_SIDEBAR_HOVER = "#242424"# Hover gris carbón oscuro en menú lateral
+# Detalles, alertas, bordes de selección y resaltados: Dorado (Gold/Amber)
+COLOR_GOLD = "#D4AF37"        # Dorado Metálico
+COLOR_ACCENT = "#D4AF37"      # Color de acento para la selección y enfoque
+COLOR_GOLD_DARK = "#B45309"   # Ámbar oscuro para texto legible
+COLOR_GOLD_LIGHT = "#FEF3C7"  # Amarillo/Dorado claro para fondos de alerta
 
 # Colores de apoyo contable
-COLOR_DEBE = "#16A34A"        # Verde contable elegante para debe
-COLOR_HABER = "#DC2626"       # Rojo contable elegante para haber
-COLOR_TEXT_DARK = "#111111"   # Texto principal casi negro
-COLOR_TEXT_MUTED = "#555555"  # Texto secundario gris medio
+COLOR_DEBE = "#15803D"        # Verde para cargos/debe
+COLOR_HABER = "#B91C1C"       # Rojo para abonos/haber
+COLOR_TEXT_DARK = "#0F172A"   # Texto principal
+COLOR_TEXT_MUTED = "#64748B"  # Texto secundario
 COLOR_TEXT_LIGHT = "#FFFFFF"  # Texto claro para botones/cabeceras
 
 # TIPOGRAFÍAS
