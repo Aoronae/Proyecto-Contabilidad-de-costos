@@ -11,26 +11,26 @@ COLOR_BG = "#FAFAFA"          # Blanco general muy suave, limpio y elegante
 COLOR_CARD = "#FFFFFF"        # Blanco puro para tarjetas y paneles elevados
 COLOR_BORDER = "#E5E7EB"      # Gris claro para bordes sutiles
 
-# Botones, cabeceras y herramientas: Gris Oscuro Carbón & Slate
-COLOR_PRIMARY = "#111827"     # Gris carbón muy oscuro (Gray 900) para cabeceras y texto principal
-COLOR_SECONDARY = "#1F2937"   # Gris carbón profundo (Gray 800) para botones y acciones
-COLOR_HOVER = "#374151"       # Gris carbón medio (Gray 700) para estados hover
+# Botones, cabeceras y herramientas: Gris Carbón Jet & Slate
+COLOR_PRIMARY = "#111111"     # Gris carbón casi negro (Gray 950) para cabeceras y textos
+COLOR_SECONDARY = "#1E1E1E"   # Gris oscuro profundo (Gray 900) para botones y acciones
+COLOR_HOVER = "#2D2D2D"       # Gris oscuro medio (Gray 800) para estados hover
 
-# Detalles, alertas, bordes de selección y resaltados: Naranja Ultra Vibrante y Vivo
-COLOR_GOLD = "#FF5E00"        # Naranja vivo de alto impacto y alta conversión
-COLOR_ACCENT = "#FF5E00"      # Color de acento para la selección y enfoque
-COLOR_GOLD_DARK = "#D34A00"   # Naranja oscuro legible para texto
-COLOR_GOLD_LIGHT = "#FFF0E6"  # Crema naranja suave (Orange 50) para fondos de alerta
+# Detalles, alertas, bordes de selección y resaltados: Naranja Neón Ultra Brillante
+COLOR_GOLD = "#FF3300"        # Naranja neón de alto impacto y luminiscencia
+COLOR_ACCENT = "#FF3300"      # Color de acento para la selección y enfoque
+COLOR_GOLD_DARK = "#CC2900"   # Naranja neón oscuro legible para texto
+COLOR_GOLD_LIGHT = "#FFEBE6"  # Crema naranja neón suave para fondos de alerta
 
 # Sidebar específico
-COLOR_SIDEBAR = "#1F2937"     # Fondo gris oscuro carbón de barra lateral
-COLOR_SIDEBAR_HOVER = "#374151"# Hover gris medio carbón en menú lateral
+COLOR_SIDEBAR = "#121212"     # Fondo gris carbón jet (casi negro) de barra lateral
+COLOR_SIDEBAR_HOVER = "#242424"# Hover gris carbón oscuro en menú lateral
 
 # Colores de apoyo contable
 COLOR_DEBE = "#16A34A"        # Verde contable elegante para debe
 COLOR_HABER = "#DC2626"       # Rojo contable elegante para haber
-COLOR_TEXT_DARK = "#111827"   # Texto principal carbón oscuro
-COLOR_TEXT_MUTED = "#4B5563"  # Texto secundario gris medio
+COLOR_TEXT_DARK = "#111111"   # Texto principal casi negro
+COLOR_TEXT_MUTED = "#555555"  # Texto secundario gris medio
 COLOR_TEXT_LIGHT = "#FFFFFF"  # Texto claro para botones/cabeceras
 
 # TIPOGRAFÍAS

@@ -7,14 +7,14 @@
 :root {
     --color-bg-light: #FAFAFA;      /* Blanco limpio y suave para fondo general */
     --color-card: #FFFFFF;          /* Blanco puro para tarjetas */
-    --color-primary: #111827;       /* Gris carbón muy oscuro (Gray 900) para cabeceras y textos */
-    --color-secondary: #1F2937;     /* Gris carbón profundo (Gray 800) de barra lateral y botones */
-    --color-secondary-hover: #374151;/* Gris carbón medio (Gray 700) para hover */
-    --color-gold: #FF5E00;          /* Naranja ultra vibrante y vivo de alto impacto para botones y acentos */
-    --color-gold-hover: #FF721A;    /* Naranja vivo brillante hover */
-    --color-gold-light: #FFF0E6;    /* Crema naranja muy suave (Orange 50) para alertas y enfoques */
-    --color-text-dark: #111827;     /* Texto principal carbón oscuro */
-    --color-text-muted: #4B5563;    /* Texto secundario gris medio */
+    --color-primary: #111111;       /* Gris carbón casi negro (Gray 950) para cabeceras y textos */
+    --color-secondary: #121212;     /* Gris carbón jet (casi negro) de barra lateral y botones */
+    --color-secondary-hover: #242424;/* Gris carbón muy oscuro para hover */
+    --color-gold: #FF3300;          /* Naranja neón ultra brillante y vivo de alto impacto para botones y acentos */
+    --color-gold-hover: #FF5533;    /* Naranja neón brillante hover */
+    --color-gold-light: #FFEBE6;    /* Crema naranja neón muy suave para alertas y enfoques */
+    --color-text-dark: #111111;     /* Texto principal carbón casi negro */
+    --color-text-muted: #555555;    /* Texto secundario gris medio */
     --color-border: #E5E7EB;        /* Bordes sutiles gris claro */
     --color-debe: #16A34A;          /* Verde contable para debe */
     --color-haber: #DC2626;         /* Rojo contable para haber */

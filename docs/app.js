@@ -851,18 +851,18 @@ function drawPEChart(fc, price, vc, peUnits) {
     ctx.textAlign = "right";
     ctx.fillText("Costos Fijos", p2CF.x - 5, p2CF.y - 6);
     
-    // B. Ventas / Ingreso Total (Línea Gris Carbón)
+    // B. Ventas / Ingreso Total (Línea Gris Jet)
     const p1V = toPx(0, 0);
     const p2V = toPx(maxUnits, maxUnits * price);
     
-    ctx.strokeStyle = "#1F2937";
+    ctx.strokeStyle = "#121212";
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(p1V.x, p1V.y);
     ctx.lineTo(p2V.x, p2V.y);
     ctx.stroke();
     
-    ctx.fillStyle = "#1F2937";
+    ctx.fillStyle = "#121212";
     ctx.font = "bold 9px Inter";
     ctx.textAlign = "right";
     ctx.fillText("Ventas", p2V.x - 5, p2V.y - 8);
@@ -887,8 +887,8 @@ function drawPEChart(fc, price, vc, peUnits) {
     if (peUnits > 0 && peUnits < maxUnits) {
         const pePos = toPx(peUnits, peUnits * price);
         
-        // Líneas de alineación punteadas en Naranja Vivo
-        ctx.strokeStyle = "#FF5E00";
+        // Líneas de alineación punteadas en Naranja Neón
+        ctx.strokeStyle = "#FF3300";
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 3]);
         
@@ -900,9 +900,9 @@ function drawPEChart(fc, price, vc, peUnits) {
         ctx.stroke();
         ctx.setLineDash([]);
         
-        // Dibujar círculo naranja vivo de PE
-        ctx.fillStyle = "#FF5E00";
-        ctx.strokeStyle = "#111827";
+        // Dibujar círculo naranja neón de PE
+        ctx.fillStyle = "#FF3300";
+        ctx.strokeStyle = "#111111";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(pePos.x, pePos.y, 6, 0, 2 * Math.PI);
@@ -910,7 +910,7 @@ function drawPEChart(fc, price, vc, peUnits) {
         ctx.stroke();
         
         // Globo informativo
-        ctx.fillStyle = "#D34A00";
+        ctx.fillStyle = "#CC2900";
         ctx.font = "bold 10px Inter";
         ctx.textAlign = "left";
         ctx.fillText(`PE (${Math.round(peUnits)} un.)`, pePos.x + 10, pePos.y - 4);
